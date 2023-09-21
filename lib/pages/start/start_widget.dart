@@ -62,7 +62,7 @@ class _StartWidgetState extends State<StartWidget> {
                   Text(
                     'SMART',
                     style: FlutterFlowTheme.of(context).titleMedium.override(
-                          fontFamily: 'Readex Pro',
+                          fontFamily: 'Rock Salt',
                           fontSize: 48.0,
                           fontWeight: FontWeight.bold,
                         ),
@@ -91,8 +91,8 @@ class _StartWidgetState extends State<StartWidget> {
                   Text(
                     'ATTENDANCE',
                     style: FlutterFlowTheme.of(context).titleMedium.override(
-                          fontFamily: 'Readex Pro',
-                          fontSize: 48.0,
+                          fontFamily: 'Rock Salt',
+                          fontSize: 40.0,
                           fontWeight: FontWeight.bold,
                         ),
                   ),
