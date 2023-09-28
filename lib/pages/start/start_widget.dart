@@ -29,7 +29,7 @@ class _StartWidgetState extends State<StartWidget> {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       await Future.delayed(const Duration(milliseconds: 3000));
 
-      context.pushNamed('HomePage');
+      context.pushNamed('Authen');
     });
   }
 
@@ -49,56 +49,65 @@ class _StartWidgetState extends State<StartWidget> {
         backgroundColor: Color(0xFF3978EF),
         body: SafeArea(
           top: true,
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'SMART',
-                    style: FlutterFlowTheme.of(context).titleMedium.override(
-                          fontFamily: 'Rock Salt',
-                          fontSize: 48.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: Image.asset(
-                      'assets/images/uff.png',
-                      width: 300.0,
-                      height: 200.0,
-                      fit: BoxFit.cover,
+          child: InkWell(
+            splashColor: Colors.transparent,
+            focusColor: Colors.transparent,
+            hoverColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            onTap: () async {
+              context.pushNamed('HomePageprof');
+            },
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'SMART',
+                      style: FlutterFlowTheme.of(context).titleMedium.override(
+                            fontFamily: 'Rock Salt',
+                            fontSize: 48.0,
+                            fontWeight: FontWeight.bold,
+                          ),
                     ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'ATTENDANCE',
-                    style: FlutterFlowTheme.of(context).titleMedium.override(
-                          fontFamily: 'Rock Salt',
-                          fontSize: 40.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: Image.asset(
+                        'assets/images/uff.png',
+                        width: 300.0,
+                        height: 200.0,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'ATTENDANCE',
+                      style: FlutterFlowTheme.of(context).titleMedium.override(
+                            fontFamily: 'Rock Salt',
+                            fontSize: 40.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
