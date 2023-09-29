@@ -27,6 +27,8 @@ class _HomePageAlunoWidgetState extends State<HomePageAlunoWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => HomePageAlunoModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override

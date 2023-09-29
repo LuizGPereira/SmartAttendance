@@ -1,3 +1,4 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -24,6 +25,8 @@ class _HistoricoprofWidgetState extends State<HistoricoprofWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => HistoricoprofModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -45,13 +48,15 @@ class _HistoricoprofWidgetState extends State<HistoricoprofWidget> {
         appBar: AppBar(
           backgroundColor: FlutterFlowTheme.of(context).primary,
           automaticallyImplyLeading: false,
-          title: Text(
-            'Histórico Professor',
-            style: FlutterFlowTheme.of(context).headlineMedium.override(
-                  fontFamily: 'Outfit',
-                  color: Colors.white,
-                  fontSize: 22.0,
-                ),
+          title: AuthUserStreamWidget(
+            builder: (context) => Text(
+              currentUserDisplayName,
+              style: FlutterFlowTheme.of(context).headlineMedium.override(
+                    fontFamily: 'Outfit',
+                    color: Colors.white,
+                    fontSize: 22.0,
+                  ),
+            ),
           ),
           actions: [],
           centerTitle: false,

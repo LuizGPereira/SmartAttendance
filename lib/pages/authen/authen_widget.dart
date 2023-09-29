@@ -119,6 +119,8 @@ class _AuthenWidgetState extends State<AuthenWidget>
     _model.textFieldNomeController ??= TextEditingController();
     _model.emailAddressLoginController ??= TextEditingController();
     _model.passwordLoginController ??= TextEditingController();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override

@@ -39,4 +39,14 @@ class TurmasRow extends SupabaseDataRow {
   PostgresTime? get horasemana2 => getField<PostgresTime>('horasemana2');
   set horasemana2(PostgresTime? value) =>
       setField<PostgresTime>('horasemana2', value);
+
+  PostgresTime? get horasemana1final =>
+      getField<PostgresTime>('horasemana1final');
+  set horasemana1final(PostgresTime? value) =>
+      setField<PostgresTime>('horasemana1final', value);
+
+  PostgresTime? get horasemana2final =>
+      getField<PostgresTime>('horasemana2final');
+  set horasemana2final(PostgresTime? value) =>
+      setField<PostgresTime>('horasemana2final', value);
 }

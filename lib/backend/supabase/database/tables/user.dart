@@ -2,7 +2,7 @@ import '../database.dart';
 
 class UserTable extends SupabaseTable<UserRow> {
   @override
-  String get tableName => 'USER';
+  String get tableName => 'user';
 
   @override
   UserRow createRow(Map<String, dynamic> data) => UserRow(data);
@@ -17,12 +17,12 @@ class UserRow extends SupabaseDataRow {
   String get id => getField<String>('id')!;
   set id(String value) => setField<String>('id', value);
 
-  String get nome => getField<String>('Nome')!;
-  set nome(String value) => setField<String>('Nome', value);
+  String get nome => getField<String>('nome')!;
+  set nome(String value) => setField<String>('nome', value);
 
-  String? get perfil => getField<String>('Perfil');
-  set perfil(String? value) => setField<String>('Perfil', value);
+  String? get perfil => getField<String>('perfil');
+  set perfil(String? value) => setField<String>('perfil', value);
 
-  String? get eMail => getField<String>('e-mail');
-  set eMail(String? value) => setField<String>('e-mail', value);
+  String? get email => getField<String>('email');
+  set email(String? value) => setField<String>('email', value);
 }

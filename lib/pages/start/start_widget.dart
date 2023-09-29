@@ -31,6 +31,8 @@ class _StartWidgetState extends State<StartWidget> {
 
       context.pushNamed('Authen');
     });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
