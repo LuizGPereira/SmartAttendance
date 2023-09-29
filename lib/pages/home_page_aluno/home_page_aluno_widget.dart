@@ -8,25 +8,25 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'home_pageprof_model.dart';
-export 'home_pageprof_model.dart';
+import 'home_page_aluno_model.dart';
+export 'home_page_aluno_model.dart';
 
-class HomePageprofWidget extends StatefulWidget {
-  const HomePageprofWidget({Key? key}) : super(key: key);
+class HomePageAlunoWidget extends StatefulWidget {
+  const HomePageAlunoWidget({Key? key}) : super(key: key);
 
   @override
-  _HomePageprofWidgetState createState() => _HomePageprofWidgetState();
+  _HomePageAlunoWidgetState createState() => _HomePageAlunoWidgetState();
 }
 
-class _HomePageprofWidgetState extends State<HomePageprofWidget> {
-  late HomePageprofModel _model;
+class _HomePageAlunoWidgetState extends State<HomePageAlunoWidget> {
+  late HomePageAlunoModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => HomePageprofModel());
+    _model = createModel(context, () => HomePageAlunoModel());
   }
 
   @override
@@ -413,6 +413,22 @@ class _HomePageprofWidgetState extends State<HomePageprofWidget> {
                                                 borderWidth: 1.0,
                                                 buttonSize: 40.0,
                                                 icon: Icon(
+                                                  Icons.delete,
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .secondaryBackground,
+                                                  size: 24.0,
+                                                ),
+                                                onPressed: () {
+                                                  print(
+                                                      'IconButton pressed ...');
+                                                },
+                                              ),
+                                              FlutterFlowIconButton(
+                                                borderRadius: 20.0,
+                                                borderWidth: 1.0,
+                                                buttonSize: 40.0,
+                                                icon: Icon(
                                                   Icons.arrow_forward_ios,
                                                   color: FlutterFlowTheme.of(
                                                           context)
@@ -480,8 +496,8 @@ class _HomePageprofWidgetState extends State<HomePageprofWidget> {
                             Column(
                               mainAxisSize: MainAxisSize.max,
                               children: [
-                                FaIcon(
-                                  FontAwesomeIcons.chalkboardTeacher,
+                                Icon(
+                                  Icons.get_app,
                                   color: FlutterFlowTheme.of(context)
                                       .secondaryText,
                                   size: 24.0,
@@ -495,7 +511,7 @@ class _HomePageprofWidgetState extends State<HomePageprofWidget> {
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 20.0, 0.0, 20.0),
                                   child: Text(
-                                    'Criar turma',
+                                    'Pedir para ingressar em turma',
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(

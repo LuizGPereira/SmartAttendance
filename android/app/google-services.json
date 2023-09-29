@@ -12,7 +12,20 @@
           "package_name": "com.mycompany.smartattendance"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1035173033289-53q7aef4uhj9nt0ubi2cv83333cscb0v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mycompany.smartattendance",
+            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
+          }
+        },
+        {
+          "client_id": "1035173033289-s2rtumu9v1t972h9jr7uu2r8oq4o6dgi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAcBhaR7hrjxFpdhB4_I_SrPkBPIjKGKkQ"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1035173033289-s2rtumu9v1t972h9jr7uu2r8oq4o6dgi.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1035173033289-lju8tmcua8bqihjfsvn7e24243i890tk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mycompany.smartattendance"
+              }
+            }
+          ]
         }
       }
     }

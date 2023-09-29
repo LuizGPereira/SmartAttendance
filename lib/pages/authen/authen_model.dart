@@ -1,10 +1,12 @@
+import '/auth/base_auth_user_provider.dart';
 import '/auth/firebase_auth/auth_util.dart';
-import '/backend/api_requests/api_calls.dart';
-import '/backend/supabase/supabase.dart';
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'authen_widget.dart' show AuthenWidget;
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -12,7 +14,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class AuthenModel extends FlutterFlowModel {
+class AuthenModel extends FlutterFlowModel<AuthenWidget> {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
@@ -21,39 +23,47 @@ class AuthenModel extends FlutterFlowModel {
   int get tabBarCurrentIndex =>
       tabBarController != null ? tabBarController!.index : 0;
 
-  // State field(s) for emailAddress widget.
-  TextEditingController? emailAddressController1;
-  String? Function(BuildContext, String?)? emailAddressController1Validator;
-  // State field(s) for password widget.
-  TextEditingController? passwordController1;
-  late bool passwordVisibility1;
-  String? Function(BuildContext, String?)? passwordController1Validator;
-  // Stores action output result for [Backend Call - API (Sample)] action in Button widget.
-  ApiCallResponse? apiResult3hd;
+  // State field(s) for emailAddressLogon widget.
+  TextEditingController? emailAddressLogonController;
+  String? Function(BuildContext, String?)? emailAddressLogonControllerValidator;
+  // State field(s) for passwordLogon widget.
+  TextEditingController? passwordLogonController;
+  late bool passwordLogonVisibility;
+  String? Function(BuildContext, String?)? passwordLogonControllerValidator;
+  // State field(s) for PasswordLogon2 widget.
+  TextEditingController? passwordLogon2Controller;
+  late bool passwordLogon2Visibility;
+  String? Function(BuildContext, String?)? passwordLogon2ControllerValidator;
+  // State field(s) for TextFieldNome widget.
+  TextEditingController? textFieldNomeController;
+  String? Function(BuildContext, String?)? textFieldNomeControllerValidator;
   // State field(s) for SeForProf widget.
   bool? seForProfValue;
-  // State field(s) for emailAddress widget.
-  TextEditingController? emailAddressController2;
-  String? Function(BuildContext, String?)? emailAddressController2Validator;
-  // State field(s) for password widget.
-  TextEditingController? passwordController2;
-  late bool passwordVisibility2;
-  String? Function(BuildContext, String?)? passwordController2Validator;
+  // State field(s) for emailAddressLogin widget.
+  TextEditingController? emailAddressLoginController;
+  String? Function(BuildContext, String?)? emailAddressLoginControllerValidator;
+  // State field(s) for passwordLogin widget.
+  TextEditingController? passwordLoginController;
+  late bool passwordLoginVisibility;
+  String? Function(BuildContext, String?)? passwordLoginControllerValidator;
 
   /// Initialization and disposal methods.
 
   void initState(BuildContext context) {
-    passwordVisibility1 = false;
-    passwordVisibility2 = false;
+    passwordLogonVisibility = false;
+    passwordLogon2Visibility = false;
+    passwordLoginVisibility = false;
   }
 
   void dispose() {
     unfocusNode.dispose();
     tabBarController?.dispose();
-    emailAddressController1?.dispose();
-    passwordController1?.dispose();
-    emailAddressController2?.dispose();
-    passwordController2?.dispose();
+    emailAddressLogonController?.dispose();
+    passwordLogonController?.dispose();
+    passwordLogon2Controller?.dispose();
+    textFieldNomeController?.dispose();
+    emailAddressLoginController?.dispose();
+    passwordLoginController?.dispose();
   }
 
   /// Action blocks are added here.

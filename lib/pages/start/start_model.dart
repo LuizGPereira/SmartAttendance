@@ -1,12 +1,13 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'start_widget.dart' show StartWidget;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class StartModel extends FlutterFlowModel {
+class StartModel extends FlutterFlowModel<StartWidget> {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
