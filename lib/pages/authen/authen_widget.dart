@@ -8,6 +8,7 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -114,11 +115,17 @@ class _AuthenWidgetState extends State<AuthenWidget>
       initialIndex: 0,
     )..addListener(() => setState(() {}));
     _model.emailAddressLogonController ??= TextEditingController();
+    _model.emailAddressLogonFocusNode ??= FocusNode();
     _model.passwordLogonController ??= TextEditingController();
+    _model.passwordLogonFocusNode ??= FocusNode();
     _model.passwordLogon2Controller ??= TextEditingController();
+    _model.passwordLogon2FocusNode ??= FocusNode();
     _model.textFieldNomeController ??= TextEditingController();
+    _model.textFieldNomeFocusNode ??= FocusNode();
     _model.emailAddressLoginController ??= TextEditingController();
+    _model.emailAddressLoginFocusNode ??= FocusNode();
     _model.passwordLoginController ??= TextEditingController();
+    _model.passwordLoginFocusNode ??= FocusNode();
 
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
@@ -132,6 +139,17 @@ class _AuthenWidgetState extends State<AuthenWidget>
 
   @override
   Widget build(BuildContext context) {
+    if (isiOS) {
+      SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(
+          statusBarBrightness: Theme.of(context).brightness,
+          systemStatusBarContrastEnforced: true,
+        ),
+      );
+    }
+
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () => _model.unfocusNode.canRequestFocus
           ? FocusScope.of(context).requestFocus(_model.unfocusNode)
@@ -322,6 +340,8 @@ class _AuthenWidgetState extends State<AuthenWidget>
                                                     child: TextFormField(
                                                       controller: _model
                                                           .emailAddressLogonController,
+                                                      focusNode: _model
+                                                          .emailAddressLogonFocusNode,
                                                       autofocus: true,
                                                       autofillHints: [
                                                         AutofillHints.email
@@ -446,6 +466,8 @@ class _AuthenWidgetState extends State<AuthenWidget>
                                                     child: TextFormField(
                                                       controller: _model
                                                           .passwordLogonController,
+                                                      focusNode: _model
+                                                          .passwordLogonFocusNode,
                                                       autofocus: true,
                                                       autofillHints: [
                                                         AutofillHints.password
@@ -591,6 +613,8 @@ class _AuthenWidgetState extends State<AuthenWidget>
                                                     child: TextFormField(
                                                       controller: _model
                                                           .passwordLogon2Controller,
+                                                      focusNode: _model
+                                                          .passwordLogon2FocusNode,
                                                       autofocus: true,
                                                       obscureText: !_model
                                                           .passwordLogon2Visibility,
@@ -732,6 +756,8 @@ class _AuthenWidgetState extends State<AuthenWidget>
                                                   child: TextFormField(
                                                     controller: _model
                                                         .textFieldNomeController,
+                                                    focusNode: _model
+                                                        .textFieldNomeFocusNode,
                                                     autofocus: true,
                                                     obscureText: false,
                                                     decoration: InputDecoration(
@@ -1230,6 +1256,8 @@ class _AuthenWidgetState extends State<AuthenWidget>
                                                     child: TextFormField(
                                                       controller: _model
                                                           .emailAddressLoginController,
+                                                      focusNode: _model
+                                                          .emailAddressLoginFocusNode,
                                                       onFieldSubmitted:
                                                           (_) async {
                                                         GoRouter.of(context)
@@ -1374,6 +1402,8 @@ class _AuthenWidgetState extends State<AuthenWidget>
                                                     child: TextFormField(
                                                       controller: _model
                                                           .passwordLoginController,
+                                                      focusNode: _model
+                                                          .passwordLoginFocusNode,
                                                       autofocus: true,
                                                       autofillHints: [
                                                         AutofillHints.password

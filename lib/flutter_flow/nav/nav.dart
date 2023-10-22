@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import '/backend/backend.dart';
 import '/backend/schema/structs/index.dart';
 import '/backend/supabase/supabase.dart';
-import '../../auth/base_auth_user_provider.dart';
+import '/auth/base_auth_user_provider.dart';
 
 import '/index.dart';
 import '/main.dart';
@@ -91,6 +91,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: 'HomePageprof',
           path: '/homePageprof',
+          requireAuth: true,
           builder: (context, params) => params.isEmpty
               ? NavBarPage(initialPage: 'HomePageprof')
               : HomePageprofWidget(),
@@ -118,7 +119,18 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: 'HomePageAluno',
           path: '/homePageAluno',
+          requireAuth: true,
           builder: (context, params) => HomePageAlunoWidget(),
+        ),
+        FFRoute(
+          name: 'Abrirchamada',
+          path: '/abrirchamada',
+          requireAuth: true,
+          builder: (context, params) => AbrirchamadaWidget(
+            pturma: params.getParam('pturma', ParamType.String),
+            pturmaid: params.getParam('pturmaid', ParamType.int),
+            paluno: params.getParam('paluno', ParamType.String),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

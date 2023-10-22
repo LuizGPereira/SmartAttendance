@@ -6,3 +6,4 @@ export '/pages/historicoprof/historicoprof_widget.dart'
 export '/pages/authen/authen_widget.dart' show AuthenWidget;
 export '/pages/home_page_aluno/home_page_aluno_widget.dart'
     show HomePageAlunoWidget;
+export '/pages/abrirchamada/abrirchamada_widget.dart' show AbrirchamadaWidget;

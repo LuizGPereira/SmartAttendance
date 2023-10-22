@@ -6,6 +6,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -41,6 +42,17 @@ class _HomePageprofWidgetState extends State<HomePageprofWidget> {
 
   @override
   Widget build(BuildContext context) {
+    if (isiOS) {
+      SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(
+          statusBarBrightness: Theme.of(context).brightness,
+          systemStatusBarContrastEnforced: true,
+        ),
+      );
+    }
+
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () => _model.unfocusNode.canRequestFocus
           ? FocusScope.of(context).requestFocus(_model.unfocusNode)
@@ -257,7 +269,7 @@ class _HomePageprofWidgetState extends State<HomePageprofWidget> {
                                                           color: FlutterFlowTheme
                                                                   .of(context)
                                                               .primaryBackground,
-                                                          fontSize: 18.0,
+                                                          fontSize: 12.0,
                                                           fontWeight:
                                                               FontWeight.bold,
                                                         ),
@@ -429,8 +441,30 @@ class _HomePageprofWidgetState extends State<HomePageprofWidget> {
                                                         .secondaryBackground,
                                                 size: 24.0,
                                               ),
-                                              onPressed: () {
-                                                print('IconButton pressed ...');
+                                              onPressed: () async {
+                                                context.pushNamed(
+                                                  'Abrirchamada',
+                                                  queryParameters: {
+                                                    'pturma': serializeParam(
+                                                      listViewTurmasRow
+                                                          .nometurma,
+                                                      ParamType.String,
+                                                    ),
+                                                    'pturmaid': serializeParam(
+                                                      listViewTurmasRow.idT,
+                                                      ParamType.int,
+                                                    ),
+                                                  }.withoutNulls,
+                                                  extra: <String, dynamic>{
+                                                    kTransitionInfoKey:
+                                                        TransitionInfo(
+                                                      hasTransition: true,
+                                                      transitionType:
+                                                          PageTransitionType
+                                                              .fade,
+                                                    ),
+                                                  },
+                                                );
                                               },
                                             ),
                                           ],

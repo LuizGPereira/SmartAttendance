@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import '../../flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_util.dart';
 import 'api_manager.dart';
 
 export 'api_manager.dart' show ApiCallResponse;
@@ -11,7 +11,7 @@ const _kPrivateApiFunctionName = 'ffPrivateApiCall';
 class SampleCall {
   static Future<ApiCallResponse> call({
     String? location = '',
-  }) {
+  }) async {
     return ApiManager.instance.makeApiCall(
       callName: 'Sample',
       apiUrl: 'http://google.com',
