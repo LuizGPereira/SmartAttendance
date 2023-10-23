@@ -1,5 +1,6 @@
 import '/auth/base_auth_user_provider.dart';
 import '/auth/firebase_auth/auth_util.dart';
+import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -752,7 +753,7 @@ class _AuthenWidgetState extends State<AuthenWidget>
                                                 Padding(
                                                   padding: EdgeInsetsDirectional
                                                       .fromSTEB(
-                                                          8.0, 0.0, 8.0, 16.0),
+                                                          0.0, 0.0, 0.0, 16.0),
                                                   child: TextFormField(
                                                     controller: _model
                                                         .textFieldNomeController,
@@ -1041,6 +1042,8 @@ class _AuthenWidgetState extends State<AuthenWidget>
                                                                   FFButtonWidget(
                                                                 onPressed:
                                                                     () async {
+                                                                  var _shouldSetState =
+                                                                      false;
                                                                   GoRouter.of(
                                                                           context)
                                                                       .prepareAuthEvent();
@@ -1053,11 +1056,34 @@ class _AuthenWidgetState extends State<AuthenWidget>
                                                                     return;
                                                                   }
                                                                   if (loggedIn) {
-                                                                    context.pushNamedAuth(
-                                                                        'HomePageprof',
-                                                                        context
-                                                                            .mounted);
+                                                                    _model.userType =
+                                                                        await UserDetailsCall
+                                                                            .call(
+                                                                      userId:
+                                                                          currentUserUid,
+                                                                    );
+                                                                    _shouldSetState =
+                                                                        true;
+                                                                    if (UserDetailsCall
+                                                                            .userType(
+                                                                          (_model.userType?.jsonBody ??
+                                                                              ''),
+                                                                        ).toString() ==
+                                                                        'P') {
+                                                                      context.pushNamedAuth(
+                                                                          'HomePageprof',
+                                                                          context
+                                                                              .mounted);
+                                                                    } else {
+                                                                      context.pushNamedAuth(
+                                                                          'HomePageAluno',
+                                                                          context
+                                                                              .mounted);
+                                                                    }
 
+                                                                    if (_shouldSetState)
+                                                                      setState(
+                                                                          () {});
                                                                     return;
                                                                   } else {
                                                                     context.pushNamedAuth(
@@ -1065,8 +1091,15 @@ class _AuthenWidgetState extends State<AuthenWidget>
                                                                         context
                                                                             .mounted);
 
+                                                                    if (_shouldSetState)
+                                                                      setState(
+                                                                          () {});
                                                                     return;
                                                                   }
+
+                                                                  if (_shouldSetState)
+                                                                    setState(
+                                                                        () {});
                                                                 },
                                                                 text:
                                                                     'Criar com o Google',

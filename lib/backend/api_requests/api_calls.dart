@@ -8,13 +8,13 @@ export 'api_manager.dart' show ApiCallResponse;
 
 const _kPrivateApiFunctionName = 'ffPrivateApiCall';
 
-class SampleCall {
+class UserDetailsCall {
   static Future<ApiCallResponse> call({
-    String? location = '',
+    String? userId = '',
   }) async {
     return ApiManager.instance.makeApiCall(
-      callName: 'Sample',
-      apiUrl: 'http://google.com',
+      callName: 'User Details',
+      apiUrl: 'http://157.230.212.240:8000/usuario/${userId}',
       callType: ApiCallType.GET,
       headers: {},
       params: {},
@@ -24,6 +24,11 @@ class SampleCall {
       cache: false,
     );
   }
+
+  static dynamic userType(dynamic response) => getJsonField(
+        response,
+        r'''$["usuario_tipo"]''',
+      );
 }
 
 class ApiPagingParams {

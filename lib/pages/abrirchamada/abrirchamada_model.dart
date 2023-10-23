@@ -42,12 +42,7 @@ class AbrirchamadaModel extends FlutterFlowModel<AbrirchamadaWidget> {
 
   /// Initialization and disposal methods.
 
-  void initState(BuildContext context) {
-    timerController.timer.setPresetTime(
-      mSec: 60000,
-      add: false,
-    );
-  }
+  void initState(BuildContext context) {}
 
   void dispose() {
     unfocusNode.dispose();
