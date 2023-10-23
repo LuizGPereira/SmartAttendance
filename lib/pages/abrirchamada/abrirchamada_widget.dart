@@ -87,8 +87,8 @@ class _AbrirchamadaWidgetState extends State<AbrirchamadaWidget> {
               color: Colors.white,
               size: 30.0,
             ),
-            onPressed: () async {
-              context.pop();
+            onPressed: () {
+              print('IconButton pressed ...');
             },
           ),
           title: Padding(

@@ -89,12 +89,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               appStateNotifier.loggedIn ? NavBarPage() : StartWidget(),
         ),
         FFRoute(
-          name: 'HomePageprof',
-          path: '/homePageprof',
+          name: 'HomePageprof_nkp',
+          path: '/homePageprofNkp',
           requireAuth: true,
           builder: (context, params) => params.isEmpty
-              ? NavBarPage(initialPage: 'HomePageprof')
-              : HomePageprofWidget(),
+              ? NavBarPage(initialPage: 'HomePageprof_nkp')
+              : HomePageprofNkpWidget(),
         ),
         FFRoute(
           name: 'START',
@@ -109,18 +109,18 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               : HistoricoprofWidget(),
         ),
         FFRoute(
-          name: 'Authen',
-          path: '/authen',
-          builder: (context, params) => AuthenWidget(
+          name: 'Authen_bkp',
+          path: '/authenBkp',
+          builder: (context, params) => AuthenBkpWidget(
             isprof: params.getParam(
                 'isprof', ParamType.DocumentReference, false, ['users']),
           ),
         ),
         FFRoute(
-          name: 'HomePageAluno',
-          path: '/homePageAluno',
+          name: 'HomePageAluno_bkp',
+          path: '/homePageAlunoBkp',
           requireAuth: true,
-          builder: (context, params) => HomePageAlunoWidget(),
+          builder: (context, params) => HomePageAlunoBkpWidget(),
         ),
         FFRoute(
           name: 'Abrirchamada',
@@ -130,6 +130,28 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             pturma: params.getParam('pturma', ParamType.String),
             pturmaid: params.getParam('pturmaid', ParamType.int),
             paluno: params.getParam('paluno', ParamType.String),
+          ),
+        ),
+        FFRoute(
+          name: 'HomePageprof',
+          path: '/homePageprof',
+          requireAuth: true,
+          builder: (context, params) => params.isEmpty
+              ? NavBarPage(initialPage: 'HomePageprof')
+              : HomePageprofWidget(),
+        ),
+        FFRoute(
+          name: 'HomePageAluno',
+          path: '/homePageAluno',
+          requireAuth: true,
+          builder: (context, params) => HomePageAlunoWidget(),
+        ),
+        FFRoute(
+          name: 'Authen',
+          path: '/authen',
+          builder: (context, params) => AuthenWidget(
+            isprof: params.getParam(
+                'isprof', ParamType.DocumentReference, false, ['users']),
           ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),

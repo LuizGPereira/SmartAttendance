@@ -1,7 +1,5 @@
-import '/auth/base_auth_user_provider.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/api_requests/api_calls.dart';
-import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -25,66 +23,16 @@ class AuthenModel extends FlutterFlowModel<AuthenWidget> {
   int get tabBarCurrentIndex =>
       tabBarController != null ? tabBarController!.index : 0;
 
-  // State field(s) for emailAddressLogon widget.
-  FocusNode? emailAddressLogonFocusNode;
-  TextEditingController? emailAddressLogonController;
-  String? Function(BuildContext, String?)? emailAddressLogonControllerValidator;
-  // State field(s) for passwordLogon widget.
-  FocusNode? passwordLogonFocusNode;
-  TextEditingController? passwordLogonController;
-  late bool passwordLogonVisibility;
-  String? Function(BuildContext, String?)? passwordLogonControllerValidator;
-  // State field(s) for PasswordLogon2 widget.
-  FocusNode? passwordLogon2FocusNode;
-  TextEditingController? passwordLogon2Controller;
-  late bool passwordLogon2Visibility;
-  String? Function(BuildContext, String?)? passwordLogon2ControllerValidator;
-  // State field(s) for TextFieldNome widget.
-  FocusNode? textFieldNomeFocusNode;
-  TextEditingController? textFieldNomeController;
-  String? Function(BuildContext, String?)? textFieldNomeControllerValidator;
-  // Stores action output result for [Backend Call - API (User Details)] action in Button widget.
-  ApiCallResponse? userType;
-  // State field(s) for SeForProf widget.
-  bool? seForProfValue;
-  // State field(s) for emailAddressLogin widget.
-  FocusNode? emailAddressLoginFocusNode;
-  TextEditingController? emailAddressLoginController;
-  String? Function(BuildContext, String?)? emailAddressLoginControllerValidator;
-  // State field(s) for passwordLogin widget.
-  FocusNode? passwordLoginFocusNode;
-  TextEditingController? passwordLoginController;
-  late bool passwordLoginVisibility;
-  String? Function(BuildContext, String?)? passwordLoginControllerValidator;
+  // Stores action output result for [Backend Call - API (User By External Id)] action in Button widget.
+  ApiCallResponse? output;
 
   /// Initialization and disposal methods.
 
-  void initState(BuildContext context) {
-    passwordLogonVisibility = false;
-    passwordLogon2Visibility = false;
-    passwordLoginVisibility = false;
-  }
+  void initState(BuildContext context) {}
 
   void dispose() {
     unfocusNode.dispose();
     tabBarController?.dispose();
-    emailAddressLogonFocusNode?.dispose();
-    emailAddressLogonController?.dispose();
-
-    passwordLogonFocusNode?.dispose();
-    passwordLogonController?.dispose();
-
-    passwordLogon2FocusNode?.dispose();
-    passwordLogon2Controller?.dispose();
-
-    textFieldNomeFocusNode?.dispose();
-    textFieldNomeController?.dispose();
-
-    emailAddressLoginFocusNode?.dispose();
-    emailAddressLoginController?.dispose();
-
-    passwordLoginFocusNode?.dispose();
-    passwordLoginController?.dispose();
   }
 
   /// Action blocks are added here.

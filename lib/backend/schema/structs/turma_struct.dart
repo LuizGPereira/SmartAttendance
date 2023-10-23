@@ -10,26 +10,40 @@ import '/flutter_flow/flutter_flow_util.dart';
 
 class TurmaStruct extends FFFirebaseStruct {
   TurmaStruct({
-    String? ano,
-    String? nome,
+    int? id,
+    int? professorId,
+    String? turmaNome,
     String? semestre,
+    List<HorarioStruct>? horarios,
+    bool? aberta,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
-  })  : _ano = ano,
-        _nome = nome,
+  })  : _id = id,
+        _professorId = professorId,
+        _turmaNome = turmaNome,
         _semestre = semestre,
+        _horarios = horarios,
+        _aberta = aberta,
         super(firestoreUtilData);
 
-  // "ano" field.
-  String? _ano;
-  String get ano => _ano ?? '';
-  set ano(String? val) => _ano = val;
-  bool hasAno() => _ano != null;
+  // "id" field.
+  int? _id;
+  int get id => _id ?? 0;
+  set id(int? val) => _id = val;
+  void incrementId(int amount) => _id = id + amount;
+  bool hasId() => _id != null;
 
-  // "nome" field.
-  String? _nome;
-  String get nome => _nome ?? '';
-  set nome(String? val) => _nome = val;
-  bool hasNome() => _nome != null;
+  // "professor_id" field.
+  int? _professorId;
+  int get professorId => _professorId ?? 0;
+  set professorId(int? val) => _professorId = val;
+  void incrementProfessorId(int amount) => _professorId = professorId + amount;
+  bool hasProfessorId() => _professorId != null;
+
+  // "turma_nome" field.
+  String? _turmaNome;
+  String get turmaNome => _turmaNome ?? '';
+  set turmaNome(String? val) => _turmaNome = val;
+  bool hasTurmaNome() => _turmaNome != null;
 
   // "semestre" field.
   String? _semestre;
@@ -37,52 +51,104 @@ class TurmaStruct extends FFFirebaseStruct {
   set semestre(String? val) => _semestre = val;
   bool hasSemestre() => _semestre != null;
 
+  // "horarios" field.
+  List<HorarioStruct>? _horarios;
+  List<HorarioStruct> get horarios => _horarios ?? const [];
+  set horarios(List<HorarioStruct>? val) => _horarios = val;
+  void updateHorarios(Function(List<HorarioStruct>) updateFn) =>
+      updateFn(_horarios ??= []);
+  bool hasHorarios() => _horarios != null;
+
+  // "aberta" field.
+  bool? _aberta;
+  bool get aberta => _aberta ?? false;
+  set aberta(bool? val) => _aberta = val;
+  bool hasAberta() => _aberta != null;
+
   static TurmaStruct fromMap(Map<String, dynamic> data) => TurmaStruct(
-        ano: data['ano'] as String?,
-        nome: data['nome'] as String?,
+        id: castToType<int>(data['id']),
+        professorId: castToType<int>(data['professor_id']),
+        turmaNome: data['turma_nome'] as String?,
         semestre: data['semestre'] as String?,
+        horarios: getStructList(
+          data['horarios'],
+          HorarioStruct.fromMap,
+        ),
+        aberta: data['aberta'] as bool?,
       );
 
   static TurmaStruct? maybeFromMap(dynamic data) =>
       data is Map<String, dynamic> ? TurmaStruct.fromMap(data) : null;
 
   Map<String, dynamic> toMap() => {
-        'ano': _ano,
-        'nome': _nome,
+        'id': _id,
+        'professor_id': _professorId,
+        'turma_nome': _turmaNome,
         'semestre': _semestre,
+        'horarios': _horarios?.map((e) => e.toMap()).toList(),
+        'aberta': _aberta,
       }.withoutNulls;
 
   @override
   Map<String, dynamic> toSerializableMap() => {
-        'ano': serializeParam(
-          _ano,
-          ParamType.String,
+        'id': serializeParam(
+          _id,
+          ParamType.int,
         ),
-        'nome': serializeParam(
-          _nome,
+        'professor_id': serializeParam(
+          _professorId,
+          ParamType.int,
+        ),
+        'turma_nome': serializeParam(
+          _turmaNome,
           ParamType.String,
         ),
         'semestre': serializeParam(
           _semestre,
           ParamType.String,
         ),
+        'horarios': serializeParam(
+          _horarios,
+          ParamType.DataStruct,
+          true,
+        ),
+        'aberta': serializeParam(
+          _aberta,
+          ParamType.bool,
+        ),
       }.withoutNulls;
 
   static TurmaStruct fromSerializableMap(Map<String, dynamic> data) =>
       TurmaStruct(
-        ano: deserializeParam(
-          data['ano'],
-          ParamType.String,
+        id: deserializeParam(
+          data['id'],
+          ParamType.int,
           false,
         ),
-        nome: deserializeParam(
-          data['nome'],
+        professorId: deserializeParam(
+          data['professor_id'],
+          ParamType.int,
+          false,
+        ),
+        turmaNome: deserializeParam(
+          data['turma_nome'],
           ParamType.String,
           false,
         ),
         semestre: deserializeParam(
           data['semestre'],
           ParamType.String,
+          false,
+        ),
+        horarios: deserializeStructParam<HorarioStruct>(
+          data['horarios'],
+          ParamType.DataStruct,
+          true,
+          structBuilder: HorarioStruct.fromSerializableMap,
+        ),
+        aberta: deserializeParam(
+          data['aberta'],
+          ParamType.bool,
           false,
         ),
       );
@@ -92,29 +158,38 @@ class TurmaStruct extends FFFirebaseStruct {
 
   @override
   bool operator ==(Object other) {
+    const listEquality = ListEquality();
     return other is TurmaStruct &&
-        ano == other.ano &&
-        nome == other.nome &&
-        semestre == other.semestre;
+        id == other.id &&
+        professorId == other.professorId &&
+        turmaNome == other.turmaNome &&
+        semestre == other.semestre &&
+        listEquality.equals(horarios, other.horarios) &&
+        aberta == other.aberta;
   }
 
   @override
-  int get hashCode => const ListEquality().hash([ano, nome, semestre]);
+  int get hashCode => const ListEquality()
+      .hash([id, professorId, turmaNome, semestre, horarios, aberta]);
 }
 
 TurmaStruct createTurmaStruct({
-  String? ano,
-  String? nome,
+  int? id,
+  int? professorId,
+  String? turmaNome,
   String? semestre,
+  bool? aberta,
   Map<String, dynamic> fieldValues = const {},
   bool clearUnsetFields = true,
   bool create = false,
   bool delete = false,
 }) =>
     TurmaStruct(
-      ano: ano,
-      nome: nome,
+      id: id,
+      professorId: professorId,
+      turmaNome: turmaNome,
       semestre: semestre,
+      aberta: aberta,
       firestoreUtilData: FirestoreUtilData(
         clearUnsetFields: clearUnsetFields,
         create: create,
