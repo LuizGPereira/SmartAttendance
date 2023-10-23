@@ -1,2 +1,7 @@
 # SmartAttendance
-GRUPO 5 - Engenharia de Software II - UFF/IC
+
+A new Flutter project.
+
+## Getting Started
+
+FlutterFlow projects are built to run on the Flutter _stable_ release.
