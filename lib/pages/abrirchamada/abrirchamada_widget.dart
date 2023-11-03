@@ -22,7 +22,7 @@ class AbrirchamadaWidget extends StatefulWidget {
   }) : super(key: key);
 
   final String? pturma;
-  final int? pturmaid;
+  final String? pturmaid;
   final String? paluno;
 
   @override
@@ -41,8 +41,10 @@ class _AbrirchamadaWidgetState extends State<AbrirchamadaWidget> {
 
     _model.textController1 ??= TextEditingController(text: '15');
     _model.textFieldFocusNode1 ??= FocusNode();
+
     _model.textController2 ??= TextEditingController(text: '10');
     _model.textFieldFocusNode2 ??= FocusNode();
+
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 

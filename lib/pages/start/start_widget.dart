@@ -30,7 +30,7 @@ class _StartWidgetState extends State<StartWidget> {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       await Future.delayed(const Duration(milliseconds: 3000));
 
-      context.pushNamed('Authen');
+      context.goNamed('Authen');
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));

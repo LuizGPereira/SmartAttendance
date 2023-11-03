@@ -1,10 +1,8 @@
 import '/auth/firebase_auth/auth_util.dart';
-import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -16,12 +14,7 @@ import 'authen_model.dart';
 export 'authen_model.dart';
 
 class AuthenWidget extends StatefulWidget {
-  const AuthenWidget({
-    Key? key,
-    this.isprof,
-  }) : super(key: key);
-
-  final DocumentReference? isprof;
+  const AuthenWidget({Key? key}) : super(key: key);
 
   @override
   _AuthenWidgetState createState() => _AuthenWidgetState();
@@ -347,43 +340,11 @@ class _AuthenWidgetState extends State<AuthenWidget>
                                                             if (user == null) {
                                                               return;
                                                             }
-                                                            _model.output =
-                                                                await UserByExternalIdCall
-                                                                    .call(
-                                                              externalId:
-                                                                  currentUserEmail,
-                                                            );
-                                                            FFAppState()
-                                                                    .userPrivateId =
-                                                                valueOrDefault<
-                                                                    int>(
-                                                              UserByExternalIdCall
-                                                                  .userPrivateId(
-                                                                (_model.output
-                                                                        ?.jsonBody ??
-                                                                    ''),
-                                                              ),
-                                                              1,
-                                                            );
-                                                            if (UserByExternalIdCall
-                                                                    .userType(
-                                                                  (_model.output
-                                                                          ?.jsonBody ??
-                                                                      ''),
-                                                                ).toString() ==
-                                                                'P') {
-                                                              context.pushNamedAuth(
-                                                                  'HomePageprof',
-                                                                  context
-                                                                      .mounted);
-                                                            } else {
-                                                              context.pushNamedAuth(
-                                                                  'HomePageAluno',
-                                                                  context
-                                                                      .mounted);
-                                                            }
 
-                                                            setState(() {});
+                                                            context.goNamedAuth(
+                                                                'HomePage',
+                                                                context
+                                                                    .mounted);
                                                           },
                                                           text:
                                                               'Continue com Google',

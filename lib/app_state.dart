@@ -37,12 +37,6 @@ class FFAppState extends ChangeNotifier {
 
   late SharedPreferences prefs;
 
-  bool _debugShowCheckModeBanner = false;
-  bool get debugShowCheckModeBanner => _debugShowCheckModeBanner;
-  set debugShowCheckModeBanner(bool _value) {
-    _debugShowCheckModeBanner = _value;
-  }
-
   List<LatLng> _LocationList = [];
   List<LatLng> get LocationList => _LocationList;
   set LocationList(List<LatLng> _value) {
@@ -88,6 +82,12 @@ class FFAppState extends ChangeNotifier {
   int get userPrivateId => _userPrivateId;
   set userPrivateId(int _value) {
     _userPrivateId = _value;
+  }
+
+  String _userType = '';
+  String get userType => _userType;
+  set userType(String _value) {
+    _userType = _value;
   }
 }
 

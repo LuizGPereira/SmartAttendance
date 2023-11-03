@@ -80,21 +80,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? NavBarPage() : StartWidget(),
+          appStateNotifier.loggedIn ? NavBarPage() : AuthenWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
           builder: (context, _) =>
-              appStateNotifier.loggedIn ? NavBarPage() : StartWidget(),
-        ),
-        FFRoute(
-          name: 'HomePageprof_nkp',
-          path: '/homePageprofNkp',
-          requireAuth: true,
-          builder: (context, params) => params.isEmpty
-              ? NavBarPage(initialPage: 'HomePageprof_nkp')
-              : HomePageprofNkpWidget(),
+              appStateNotifier.loggedIn ? NavBarPage() : AuthenWidget(),
         ),
         FFRoute(
           name: 'START',
@@ -109,49 +101,34 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               : HistoricoprofWidget(),
         ),
         FFRoute(
-          name: 'Authen_bkp',
-          path: '/authenBkp',
-          builder: (context, params) => AuthenBkpWidget(
-            isprof: params.getParam(
-                'isprof', ParamType.DocumentReference, false, ['users']),
-          ),
-        ),
-        FFRoute(
-          name: 'HomePageAluno_bkp',
-          path: '/homePageAlunoBkp',
-          requireAuth: true,
-          builder: (context, params) => HomePageAlunoBkpWidget(),
-        ),
-        FFRoute(
           name: 'Abrirchamada',
           path: '/abrirchamada',
           requireAuth: true,
           builder: (context, params) => AbrirchamadaWidget(
             pturma: params.getParam('pturma', ParamType.String),
-            pturmaid: params.getParam('pturmaid', ParamType.int),
+            pturmaid: params.getParam('pturmaid', ParamType.String),
             paluno: params.getParam('paluno', ParamType.String),
           ),
         ),
         FFRoute(
-          name: 'HomePageprof',
-          path: '/homePageprof',
+          name: 'HomePage',
+          path: '/homePage',
           requireAuth: true,
           builder: (context, params) => params.isEmpty
-              ? NavBarPage(initialPage: 'HomePageprof')
-              : HomePageprofWidget(),
-        ),
-        FFRoute(
-          name: 'HomePageAluno',
-          path: '/homePageAluno',
-          requireAuth: true,
-          builder: (context, params) => HomePageAlunoWidget(),
+              ? NavBarPage(initialPage: 'HomePage')
+              : HomePageWidget(),
         ),
         FFRoute(
           name: 'Authen',
           path: '/authen',
-          builder: (context, params) => AuthenWidget(
-            isprof: params.getParam(
-                'isprof', ParamType.DocumentReference, false, ['users']),
+          builder: (context, params) => AuthenWidget(),
+        ),
+        FFRoute(
+          name: 'TurmaDetails',
+          path: '/turmaDetails',
+          builder: (context, params) => TurmaDetailsWidget(
+            turmaId: params.getParam('turmaId', ParamType.String),
+            turmaNome: params.getParam('turmaNome', ParamType.String),
           ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
@@ -319,7 +296,7 @@ class FFRoute {
 
           if (requireAuth && !appStateNotifier.loggedIn) {
             appStateNotifier.setRedirectLocationIfUnset(state.location);
-            return '/start';
+            return '/authen';
           }
           return null;
         },

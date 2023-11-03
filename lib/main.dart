@@ -119,7 +119,7 @@ class NavBarPage extends StatefulWidget {
 
 /// This is the private State class that goes with NavBarPage.
 class _NavBarPageState extends State<NavBarPage> {
-  String _currentPageName = 'HomePageprof_nkp';
+  String _currentPageName = 'HomePage';
   late Widget? _currentPage;
 
   @override
@@ -132,9 +132,8 @@ class _NavBarPageState extends State<NavBarPage> {
   @override
   Widget build(BuildContext context) {
     final tabs = {
-      'HomePageprof_nkp': HomePageprofNkpWidget(),
       'Historicoprof': HistoricoprofWidget(),
-      'HomePageprof': HomePageprofWidget(),
+      'HomePage': HomePageWidget(),
     };
     final currentIndex = tabs.keys.toList().indexOf(_currentPageName);
 
@@ -169,14 +168,14 @@ class _NavBarPageState extends State<NavBarPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
-                  Icons.home_outlined,
+                  FontAwesomeIcons.list,
                   color: currentIndex == 0
                       ? FlutterFlowTheme.of(context).primary
                       : Color(0x8A000000),
                   size: 24.0,
                 ),
                 Text(
-                  'Home',
+                  'Histórico',
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: currentIndex == 0
@@ -193,32 +192,8 @@ class _NavBarPageState extends State<NavBarPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
-                  FontAwesomeIcons.list,
-                  color: currentIndex == 1
-                      ? FlutterFlowTheme.of(context).primary
-                      : Color(0x8A000000),
-                  size: 24.0,
-                ),
-                Text(
-                  'Histórico',
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: currentIndex == 1
-                        ? FlutterFlowTheme.of(context).primary
-                        : Color(0x8A000000),
-                    fontSize: 11.0,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          FloatingNavbarItem(
-            customWidget: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
                   Icons.home_outlined,
-                  color: currentIndex == 2
+                  color: currentIndex == 1
                       ? FlutterFlowTheme.of(context).primary
                       : Color(0x8A000000),
                   size: 24.0,
@@ -227,7 +202,7 @@ class _NavBarPageState extends State<NavBarPage> {
                   'Home',
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    color: currentIndex == 2
+                    color: currentIndex == 1
                         ? FlutterFlowTheme.of(context).primary
                         : Color(0x8A000000),
                     fontSize: 11.0,
