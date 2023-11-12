@@ -11,12 +11,19 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 import 'home_page_model.dart';
 export 'home_page_model.dart';
 
 class HomePageWidget extends StatefulWidget {
-  const HomePageWidget({Key? key}) : super(key: key);
+  const HomePageWidget({
+    Key? key,
+    String? pusertype,
+  })  : this.pusertype = pusertype ?? 'p',
+        super(key: key);
+
+  final String pusertype;
 
   @override
   _HomePageWidgetState createState() => _HomePageWidgetState();
@@ -177,170 +184,192 @@ class _HomePageWidgetState extends State<HomePageWidget> {
           top: true,
           child: Column(
             mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Column(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(20.0, 20.0, 20.0, 20.0),
-                    child: Text(
-                      'Suas Turmas',
-                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            fontFamily: 'Readex Pro',
-                            fontSize: 16.0,
-                          ),
-                    ),
-                  ),
-                  Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
-                    child: Container(
-                      width: 100.0,
-                      height: 330.0,
-                      decoration: BoxDecoration(
-                        color: FlutterFlowTheme.of(context).secondaryBackground,
-                        borderRadius: BorderRadius.circular(10.0),
+              Container(
+                width: 408.0,
+                height: 501.0,
+                decoration: BoxDecoration(
+                  color: FlutterFlowTheme.of(context).secondaryBackground,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(
+                          20.0, 20.0, 20.0, 20.0),
+                      child: Text(
+                        'Suas Turmas',
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              fontFamily: 'Readex Pro',
+                              fontSize: 16.0,
+                            ),
                       ),
-                      child: FutureBuilder<ApiCallResponse>(
-                        future: (_model.apiRequestCompleter ??=
-                                Completer<ApiCallResponse>()
-                                  ..complete(TurmasByUserPrivateIdCall.call(
+                    ),
+                    Padding(
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
+                      child: Container(
+                        width: 100.0,
+                        height: 432.0,
+                        decoration: BoxDecoration(
+                          color:
+                              FlutterFlowTheme.of(context).secondaryBackground,
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: Container(
+                          width: 100.0,
+                          height: 600.0,
+                          decoration: BoxDecoration(
+                            color: FlutterFlowTheme.of(context)
+                                .secondaryBackground,
+                          ),
+                          child: InkWell(
+                            splashColor: Colors.transparent,
+                            focusColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onTap: () async {
+                              setState(() =>
+                                  _model.listViewPagingController?.refresh());
+                              await _model.waitForOnePageForListView();
+                            },
+                            child: RefreshIndicator(
+                              onRefresh: () async {
+                                setState(() =>
+                                    _model.listViewPagingController?.refresh());
+                                await _model.waitForOnePageForListView();
+                              },
+                              child: PagedListView<ApiPagingParams,
+                                  dynamic>.separated(
+                                pagingController: _model.setListViewController(
+                                  (nextPageMarker) =>
+                                      TurmasByUserPrivateIdCall.call(
                                     privateId: FFAppState().userPrivateId,
-                                  )))
-                            .future,
-                        builder: (context, snapshot) {
-                          // Customize what your widget looks like when it's loading.
-                          if (!snapshot.hasData) {
-                            return Center(
-                              child: SizedBox(
-                                width: 50.0,
-                                height: 50.0,
-                                child: CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                    FlutterFlowTheme.of(context).primary,
                                   ),
                                 ),
-                              ),
-                            );
-                          }
-                          final listViewTurmasByUserPrivateIdResponse =
-                              snapshot.data!;
-                          return Builder(
-                            builder: (context) {
-                              final turmas = TurmasByUserPrivateIdCall.turmas(
-                                    listViewTurmasByUserPrivateIdResponse
-                                        .jsonBody,
-                                  )?.map((e) => e).toList()?.toList() ??
-                                  [];
-                              return InkWell(
-                                splashColor: Colors.transparent,
-                                focusColor: Colors.transparent,
-                                hoverColor: Colors.transparent,
-                                highlightColor: Colors.transparent,
-                                onTap: () async {
-                                  setState(
-                                      () => _model.apiRequestCompleter = null);
-                                  await _model.waitForApiRequestCompleted();
-                                },
-                                child: RefreshIndicator(
-                                  onRefresh: () async {
-                                    setState(() =>
-                                        _model.apiRequestCompleter = null);
-                                    await _model.waitForApiRequestCompleted();
-                                  },
-                                  child: ListView.separated(
-                                    padding: EdgeInsets.zero,
-                                    scrollDirection: Axis.vertical,
-                                    itemCount: turmas.length,
-                                    separatorBuilder: (_, __) =>
-                                        SizedBox(height: 1.0),
-                                    itemBuilder: (context, turmasIndex) {
-                                      final turmasItem = turmas[turmasIndex];
-                                      return Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            5.0, 5.0, 5.0, 5.0),
-                                        child: InkWell(
-                                          splashColor: Colors.transparent,
-                                          focusColor: Colors.transparent,
-                                          hoverColor: Colors.transparent,
-                                          highlightColor: Colors.transparent,
-                                          onTap: () async {
-                                            if (FFAppState().userType == 'P') {
-                                              context.pushNamed(
-                                                'Abrirchamada',
-                                                queryParameters: {
-                                                  'pturma': serializeParam(
-                                                    (turmasItem != null &&
-                                                                turmasItem != ''
-                                                            ? TurmaStruct
-                                                                .fromMap(
-                                                                    turmasItem)
-                                                            : null)
-                                                        ?.turmaNome,
-                                                    ParamType.String,
-                                                  ),
-                                                  'pturmaid': serializeParam(
-                                                    (turmasItem != null &&
-                                                                turmasItem != ''
-                                                            ? TurmaStruct
-                                                                .fromMap(
-                                                                    turmasItem)
-                                                            : null)
-                                                        ?.id
-                                                        ?.toString(),
-                                                    ParamType.String,
-                                                  ),
-                                                  'paluno': serializeParam(
-                                                    '',
-                                                    ParamType.String,
-                                                  ),
-                                                }.withoutNulls,
-                                              );
-                                            } else {
-                                              await showDialog(
-                                                context: context,
-                                                builder: (alertDialogContext) {
-                                                  return AlertDialog(
-                                                    title: Text('Turma'),
-                                                    content: Text(
-                                                        TurmaStruct.fromMap(
-                                                                turmasItem)
-                                                            .turmaNome),
-                                                    actions: [
-                                                      TextButton(
-                                                        onPressed: () =>
-                                                            Navigator.pop(
-                                                                alertDialogContext),
-                                                        child: Text('Ok'),
-                                                      ),
-                                                    ],
-                                                  );
-                                                },
-                                              );
-                                            }
-                                          },
-                                          child: Card(
-                                            clipBehavior:
-                                                Clip.antiAliasWithSaveLayer,
-                                            color:
-                                                TurmaStruct.fromMap(turmasItem)
-                                                        .aberta
-                                                    ? Color(0xFF15F504)
-                                                    : Color(0xFF1A09F7),
-                                            elevation: 10.0,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(12.0),
-                                            ),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Padding(
+                                padding: EdgeInsets.zero,
+                                reverse: false,
+                                scrollDirection: Axis.vertical,
+                                separatorBuilder: (_, __) =>
+                                    SizedBox(height: 1.0),
+                                builderDelegate:
+                                    PagedChildBuilderDelegate<dynamic>(
+                                  // Customize what your widget looks like when it's loading the first page.
+                                  firstPageProgressIndicatorBuilder: (_) =>
+                                      Center(
+                                    child: SizedBox(
+                                      width: 50.0,
+                                      height: 50.0,
+                                      child: CircularProgressIndicator(
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                          FlutterFlowTheme.of(context).primary,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  // Customize what your widget looks like when it's loading another page.
+                                  newPageProgressIndicatorBuilder: (_) =>
+                                      Center(
+                                    child: SizedBox(
+                                      width: 50.0,
+                                      height: 50.0,
+                                      child: CircularProgressIndicator(
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                          FlutterFlowTheme.of(context).primary,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+
+                                  itemBuilder: (context, _, turmasIndex) {
+                                    final turmasItem = _model
+                                        .listViewPagingController!
+                                        .itemList![turmasIndex];
+                                    return Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          5.0, 5.0, 5.0, 5.0),
+                                      child: InkWell(
+                                        splashColor: Colors.transparent,
+                                        focusColor: Colors.transparent,
+                                        hoverColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        onTap: () async {
+                                          if (FFAppState().userType == 'P') {
+                                            context.pushNamed(
+                                              'Abrirchamada',
+                                              queryParameters: {
+                                                'pturma': serializeParam(
+                                                  (turmasItem != null &&
+                                                              turmasItem != ''
+                                                          ? TurmaStruct.fromMap(
+                                                              turmasItem)
+                                                          : null)
+                                                      ?.turmaNome,
+                                                  ParamType.String,
+                                                ),
+                                                'pturmaid': serializeParam(
+                                                  (turmasItem != null &&
+                                                              turmasItem != ''
+                                                          ? TurmaStruct.fromMap(
+                                                              turmasItem)
+                                                          : null)
+                                                      ?.id
+                                                      ?.toString(),
+                                                  ParamType.String,
+                                                ),
+                                                'paluno': serializeParam(
+                                                  '',
+                                                  ParamType.String,
+                                                ),
+                                              }.withoutNulls,
+                                            );
+                                          } else {
+                                            await showDialog(
+                                              context: context,
+                                              builder: (alertDialogContext) {
+                                                return AlertDialog(
+                                                  title: Text('Turma'),
+                                                  content: Text(
+                                                      TurmaStruct.fromMap(
+                                                              turmasItem)
+                                                          .turmaNome),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () =>
+                                                          Navigator.pop(
+                                                              alertDialogContext),
+                                                      child: Text('Ok'),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                          }
+                                        },
+                                        child: Card(
+                                          clipBehavior:
+                                              Clip.antiAliasWithSaveLayer,
+                                          color: TurmaStruct.fromMap(turmasItem)
+                                                  .aberta
+                                              ? Color(0xFF15F504)
+                                              : Color(0xFF1A09F7),
+                                          elevation: 10.0,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12.0),
+                                          ),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Expanded(
+                                                child: Padding(
                                                   padding: EdgeInsetsDirectional
                                                       .fromSTEB(
                                                           10.0, 5.0, 0.0, 5.0),
@@ -538,57 +567,92 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                     ],
                                                   ),
                                                 ),
-                                                Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    FlutterFlowIconButton(
-                                                      borderRadius: 20.0,
-                                                      borderWidth: 1.0,
-                                                      buttonSize: 40.0,
-                                                      icon: Icon(
-                                                        Icons.arrow_forward_ios,
-                                                        color: FlutterFlowTheme
-                                                                .of(context)
-                                                            .secondaryBackground,
-                                                        size: 24.0,
-                                                      ),
-                                                      onPressed: () {
-                                                        print(
-                                                            'IconButton pressed ...');
-                                                      },
+                                              ),
+                                              Column(
+                                                mainAxisSize: MainAxisSize.max,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  FlutterFlowIconButton(
+                                                    borderRadius: 20.0,
+                                                    borderWidth: 1.0,
+                                                    buttonSize: 40.0,
+                                                    icon: Icon(
+                                                      Icons.arrow_forward_ios,
+                                                      color: FlutterFlowTheme
+                                                              .of(context)
+                                                          .secondaryBackground,
+                                                      size: 24.0,
                                                     ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
+                                                    onPressed: () async {
+                                                      if (FFAppState()
+                                                              .userType ==
+                                                          'P') {
+                                                        context.pushNamed(
+                                                          'Abrirchamada',
+                                                          queryParameters: {
+                                                            'pturma':
+                                                                serializeParam(
+                                                              turmasIndex
+                                                                  .toString(),
+                                                              ParamType.String,
+                                                            ),
+                                                            'pturmaid':
+                                                                serializeParam(
+                                                              '',
+                                                              ParamType.String,
+                                                            ),
+                                                          }.withoutNulls,
+                                                        );
+                                                      } else {
+                                                        context.pushNamed(
+                                                          'Alunomarcarchamada',
+                                                          queryParameters: {
+                                                            'pturma':
+                                                                serializeParam(
+                                                              turmasIndex
+                                                                  .toString(),
+                                                              ParamType.String,
+                                                            ),
+                                                            'pturmaid':
+                                                                serializeParam(
+                                                              '',
+                                                              ParamType.String,
+                                                            ),
+                                                          }.withoutNulls,
+                                                        );
+                                                      }
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                      );
-                                    },
-                                  ),
+                                      ),
+                                    );
+                                  },
                                 ),
-                              );
-                            },
-                          );
-                        },
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               Align(
-                alignment: AlignmentDirectional(-1.00, 0.00),
+                alignment: AlignmentDirectional(0.00, 0.00),
                 child: Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 0.0, 0.0),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
-                            0.0, 30.0, 0.0, 30.0),
+                        padding:
+                            EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
                         child: Text(
                           'Mais opções',
                           style: FlutterFlowTheme.of(context).labelLarge,
@@ -598,156 +662,181 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   ),
                 ),
               ),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  if (FFAppState().userType == 'P')
-                    Expanded(
-                      child: Card(
-                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                        color: Color(0xFFBFBFBF),
-                        elevation: 4.0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.0),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              20.0, 0.0, 20.0, 0.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  FaIcon(
-                                    FontAwesomeIcons.chalkboardTeacher,
-                                    color: FlutterFlowTheme.of(context)
-                                        .secondaryText,
-                                    size: 24.0,
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 20.0, 0.0, 20.0),
-                                    child: Text(
-                                      'Relatórios',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            fontFamily: 'Readex Pro',
-                                            fontSize: 20.0,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  FlutterFlowIconButton(
-                                    borderRadius: 20.0,
-                                    borderWidth: 1.0,
-                                    buttonSize: 40.0,
-                                    icon: Icon(
-                                      Icons.arrow_forward_ios,
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                      size: 24.0,
-                                    ),
-                                    onPressed: () {
-                                      print('IconButton pressed ...');
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ],
+              if (widget.pusertype == 'p')
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Column(
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        FlutterFlowIconButton(
+                          borderColor: FlutterFlowTheme.of(context).primaryText,
+                          borderRadius: 40.0,
+                          borderWidth: 1.0,
+                          buttonSize: 60.0,
+                          fillColor:
+                              FlutterFlowTheme.of(context).primaryBackground,
+                          icon: Icon(
+                            Icons.content_paste,
+                            color: FlutterFlowTheme.of(context).primaryText,
+                            size: 24.0,
                           ),
+                          onPressed: () {
+                            print('IconButton pressed ...');
+                          },
+                        ),
+                        Text(
+                          'Relatório',
+                          style:
+                              FlutterFlowTheme.of(context).bodyMedium.override(
+                                    fontFamily: 'Readex Pro',
+                                    fontSize: 10.0,
+                                  ),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        FlutterFlowIconButton(
+                          borderColor: FlutterFlowTheme.of(context).primaryText,
+                          borderRadius: 40.0,
+                          borderWidth: 1.0,
+                          buttonSize: 60.0,
+                          fillColor:
+                              FlutterFlowTheme.of(context).primaryBackground,
+                          icon: FaIcon(
+                            FontAwesomeIcons.chalkboard,
+                            color: FlutterFlowTheme.of(context).primaryText,
+                            size: 24.0,
+                          ),
+                          onPressed: () async {
+                            context.pushNamed('InserirTurma');
+                          },
+                        ),
+                        Text(
+                          'Inserir Turma',
+                          style:
+                              FlutterFlowTheme.of(context).bodyMedium.override(
+                                    fontFamily: 'Readex Pro',
+                                    fontSize: 10.0,
+                                  ),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        FlutterFlowIconButton(
+                          borderColor: FlutterFlowTheme.of(context).primaryText,
+                          borderRadius: 40.0,
+                          borderWidth: 1.0,
+                          buttonSize: 60.0,
+                          fillColor:
+                              FlutterFlowTheme.of(context).primaryBackground,
+                          icon: Icon(
+                            Icons.boy,
+                            color: FlutterFlowTheme.of(context).primaryText,
+                            size: 36.0,
+                          ),
+                          onPressed: () {
+                            print('IconButton pressed ...');
+                          },
+                        ),
+                        Text(
+                          'Inserir Aluno',
+                          style:
+                              FlutterFlowTheme.of(context).bodyMedium.override(
+                                    fontFamily: 'Readex Pro',
+                                    fontSize: 10.0,
+                                  ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              if (widget.pusertype == 'a')
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 35.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Padding(
+                        padding:
+                            EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 0.0, 0.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            FlutterFlowIconButton(
+                              borderColor: Color(0xFF070707),
+                              borderRadius: 40.0,
+                              borderWidth: 1.0,
+                              buttonSize: 60.0,
+                              fillColor: FlutterFlowTheme.of(context)
+                                  .primaryBackground,
+                              icon: Icon(
+                                Icons.attach_file,
+                                color: FlutterFlowTheme.of(context).primaryText,
+                                size: 24.0,
+                              ),
+                              onPressed: () {
+                                print('IconButton pressed ...');
+                              },
+                            ),
+                            Text(
+                              'Inserir atestado',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    fontFamily: 'Readex Pro',
+                                    fontSize: 10.0,
+                                  ),
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-                ],
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  if (FFAppState().userType == 'A')
-                    Expanded(
-                      child: Card(
-                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                        color: Color(0xFFBFBFBF),
-                        elevation: 4.0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              20.0, 0.0, 20.0, 0.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  FaIcon(
-                                    FontAwesomeIcons.userGraduate,
-                                    color: FlutterFlowTheme.of(context)
-                                        .secondaryText,
-                                    size: 24.0,
-                                  ),
-                                ],
+                      Padding(
+                        padding:
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 10.0, 0.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            FlutterFlowIconButton(
+                              borderColor: Color(0xFF070707),
+                              borderRadius: 40.0,
+                              borderWidth: 1.0,
+                              buttonSize: 60.0,
+                              fillColor: FlutterFlowTheme.of(context)
+                                  .primaryBackground,
+                              icon: Icon(
+                                Icons.add,
+                                color: FlutterFlowTheme.of(context).primaryText,
+                                size: 24.0,
                               ),
-                              Column(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 20.0, 0.0, 20.0),
-                                    child: Text(
-                                      'Marcar Presença ',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            fontFamily: 'Readex Pro',
-                                            fontSize: 20.0,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                    ),
+                              onPressed: () {
+                                print('IconButton pressed ...');
+                              },
+                            ),
+                            Text(
+                              'Solicitar entrar na turma',
+                              maxLines: 2,
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    fontFamily: 'Readex Pro',
+                                    fontSize: 10.0,
                                   ),
-                                ],
-                              ),
-                              Column(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  FlutterFlowIconButton(
-                                    borderRadius: 20.0,
-                                    borderWidth: 1.0,
-                                    buttonSize: 40.0,
-                                    icon: Icon(
-                                      Icons.arrow_forward_ios,
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                      size: 24.0,
-                                    ),
-                                    onPressed: () {
-                                      print('IconButton pressed ...');
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-                ],
-              ),
+                    ],
+                  ),
+                ),
             ],
           ),
         ),

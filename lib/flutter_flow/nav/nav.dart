@@ -6,6 +6,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import '/backend/backend.dart';
 import '/backend/schema/structs/index.dart';
+
 import '/backend/supabase/supabase.dart';
 import '/auth/base_auth_user_provider.dart';
 
@@ -108,6 +109,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             pturma: params.getParam('pturma', ParamType.String),
             pturmaid: params.getParam('pturmaid', ParamType.String),
             paluno: params.getParam('paluno', ParamType.String),
+            palunoid: params.getParam('palunoid', ParamType.String),
           ),
         ),
         FFRoute(
@@ -116,7 +118,9 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           requireAuth: true,
           builder: (context, params) => params.isEmpty
               ? NavBarPage(initialPage: 'HomePage')
-              : HomePageWidget(),
+              : HomePageWidget(
+                  pusertype: params.getParam('pusertype', ParamType.String),
+                ),
         ),
         FFRoute(
           name: 'Authen',
@@ -130,6 +134,28 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             turmaId: params.getParam('turmaId', ParamType.String),
             turmaNome: params.getParam('turmaNome', ParamType.String),
           ),
+        ),
+        FFRoute(
+          name: 'Alunomarcarchamada',
+          path: '/alunomarcarchamada',
+          requireAuth: true,
+          builder: (context, params) => AlunomarcarchamadaWidget(
+            pturma: params.getParam('pturma', ParamType.String),
+            pturmaid: params.getParam('pturmaid', ParamType.String),
+            paluno: params.getParam('paluno', ParamType.String),
+            palunoid: params.getParam('palunoid', ParamType.String),
+            pdentrodoraio: params.getParam('pdentrodoraio', ParamType.bool),
+            pmarcadapresenca:
+                params.getParam('pmarcadapresenca', ParamType.bool),
+            pchamadaencerrada:
+                params.getParam('pchamadaencerrada', ParamType.bool),
+          ),
+        ),
+        FFRoute(
+          name: 'InserirTurma',
+          path: '/inserirTurma',
+          requireAuth: true,
+          builder: (context, params) => InserirTurmaWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
