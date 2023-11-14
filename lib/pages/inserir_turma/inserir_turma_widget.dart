@@ -123,7 +123,7 @@ class _InserirTurmaWidgetState extends State<InserirTurmaWidget> {
                       'Inserir Turma id',
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             fontFamily: 'Readex Pro',
-                            fontSize: 24.0,
+                            fontSize: 12.0,
                             fontWeight: FontWeight.bold,
                           ),
                     ),
@@ -196,7 +196,7 @@ class _InserirTurmaWidgetState extends State<InserirTurmaWidget> {
                       'Indique o semestre',
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             fontFamily: 'Readex Pro',
-                            fontSize: 24.0,
+                            fontSize: 12.0,
                             fontWeight: FontWeight.bold,
                           ),
                     ),
@@ -248,7 +248,7 @@ class _InserirTurmaWidgetState extends State<InserirTurmaWidget> {
                       'Escolha o ano',
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             fontFamily: 'Readex Pro',
-                            fontSize: 24.0,
+                            fontSize: 12.0,
                             fontWeight: FontWeight.bold,
                           ),
                     ),
@@ -300,7 +300,7 @@ class _InserirTurmaWidgetState extends State<InserirTurmaWidget> {
                       'Nome Turma',
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             fontFamily: 'Readex Pro',
-                            fontSize: 24.0,
+                            fontSize: 12.0,
                             fontWeight: FontWeight.bold,
                           ),
                     ),

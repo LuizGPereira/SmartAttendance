@@ -1,38 +1,45 @@
-import '/auth/firebase_auth/auth_util.dart';
+import '/flutter_flow/flutter_flow_checkbox_group.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
-import '/flutter_flow/upload_data.dart';
-import 'dart:ui';
-import 'modal_adicionar_atestado_widget.dart' show ModalAdicionarAtestadoWidget;
-import 'package:cached_network_image/cached_network_image.dart';
+import 'relatorios_widget.dart' show RelatoriosWidget;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class ModalAdicionarAtestadoModel
-    extends FlutterFlowModel<ModalAdicionarAtestadoWidget> {
-  ///  State fields for stateful widgets in this component.
+class RelatoriosModel extends FlutterFlowModel<RelatoriosWidget> {
+  ///  State fields for stateful widgets in this page.
 
+  final unfocusNode = FocusNode();
   // State field(s) for DropDown widget.
   String? dropDownValue1;
   FormFieldController<String>? dropDownValueController1;
+  // State field(s) for CheckboxGroup widget.
+  List<String>? checkboxGroupValues;
+  FormFieldController<List<String>>? checkboxGroupValueController;
+  // State field(s) for TextField widget.
+  FocusNode? textFieldFocusNode;
+  TextEditingController? textController;
+  String? Function(BuildContext, String?)? textControllerValidator;
+  // State field(s) for Checkbox_aluno widget.
+  bool? checkboxAlunoValue;
   // State field(s) for DropDown widget.
   String? dropDownValue2;
   FormFieldController<String>? dropDownValueController2;
-  bool isDataUploading = false;
-  FFUploadedFile uploadedLocalFile =
-      FFUploadedFile(bytes: Uint8List.fromList([]));
 
   /// Initialization and disposal methods.
 
   void initState(BuildContext context) {}
 
-  void dispose() {}
+  void dispose() {
+    unfocusNode.dispose();
+    textFieldFocusNode?.dispose();
+    textController?.dispose();
+  }
 
   /// Action blocks are added here.
 

@@ -5,17 +5,16 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
-import '/flutter_flow/upload_data.dart';
 import 'dart:ui';
-import 'modal_adicionar_atestado_widget.dart' show ModalAdicionarAtestadoWidget;
+import 'modal_pedir_acesso_turma_widget.dart' show ModalPedirAcessoTurmaWidget;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class ModalAdicionarAtestadoModel
-    extends FlutterFlowModel<ModalAdicionarAtestadoWidget> {
+class ModalPedirAcessoTurmaModel
+    extends FlutterFlowModel<ModalPedirAcessoTurmaWidget> {
   ///  State fields for stateful widgets in this component.
 
   // State field(s) for DropDown widget.
@@ -24,9 +23,6 @@ class ModalAdicionarAtestadoModel
   // State field(s) for DropDown widget.
   String? dropDownValue2;
   FormFieldController<String>? dropDownValueController2;
-  bool isDataUploading = false;
-  FFUploadedFile uploadedLocalFile =
-      FFUploadedFile(bytes: Uint8List.fromList([]));
 
   /// Initialization and disposal methods.
 

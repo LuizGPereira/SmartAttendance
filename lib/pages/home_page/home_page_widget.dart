@@ -4,8 +4,11 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/pages/modal_adicionar_atestado/modal_adicionar_atestado_widget.dart';
+import '/pages/modal_pedir_acesso_turma/modal_pedir_acesso_turma_widget.dart';
 import '/backend/schema/structs/index.dart';
 import 'dart:async';
+import 'package:aligned_dialog/aligned_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -20,10 +23,13 @@ class HomePageWidget extends StatefulWidget {
   const HomePageWidget({
     Key? key,
     String? pusertype,
+    String? puserid,
   })  : this.pusertype = pusertype ?? 'p',
+        this.puserid = puserid ?? 'Professor',
         super(key: key);
 
   final String pusertype;
+  final String puserid;
 
   @override
   _HomePageWidgetState createState() => _HomePageWidgetState();
@@ -683,8 +689,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                             color: FlutterFlowTheme.of(context).primaryText,
                             size: 24.0,
                           ),
-                          onPressed: () {
-                            print('IconButton pressed ...');
+                          onPressed: () async {
+                            context.pushNamed('Relatorios');
                           },
                         ),
                         Text(
@@ -771,21 +777,50 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           children: [
-                            FlutterFlowIconButton(
-                              borderColor: Color(0xFF070707),
-                              borderRadius: 40.0,
-                              borderWidth: 1.0,
-                              buttonSize: 60.0,
-                              fillColor: FlutterFlowTheme.of(context)
-                                  .primaryBackground,
-                              icon: Icon(
-                                Icons.attach_file,
-                                color: FlutterFlowTheme.of(context).primaryText,
-                                size: 24.0,
+                            Builder(
+                              builder: (context) => FlutterFlowIconButton(
+                                borderColor: Color(0xFF070707),
+                                borderRadius: 40.0,
+                                borderWidth: 1.0,
+                                buttonSize: 60.0,
+                                fillColor: FlutterFlowTheme.of(context)
+                                    .primaryBackground,
+                                icon: Icon(
+                                  Icons.attach_file,
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryText,
+                                  size: 24.0,
+                                ),
+                                onPressed: () async {
+                                  await showAlignedDialog(
+                                    context: context,
+                                    isGlobal: true,
+                                    avoidOverflow: false,
+                                    targetAnchor: AlignmentDirectional(0.0, 0.0)
+                                        .resolve(Directionality.of(context)),
+                                    followerAnchor: AlignmentDirectional(
+                                            0.0, 0.0)
+                                        .resolve(Directionality.of(context)),
+                                    builder: (dialogContext) {
+                                      return Material(
+                                        color: Colors.transparent,
+                                        child: GestureDetector(
+                                          onTap: () => _model
+                                                  .unfocusNode.canRequestFocus
+                                              ? FocusScope.of(context)
+                                                  .requestFocus(
+                                                      _model.unfocusNode)
+                                              : FocusScope.of(context)
+                                                  .unfocus(),
+                                          child: ModalAdicionarAtestadoWidget(
+                                            puserID: currentUserUid,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ).then((value) => setState(() {}));
+                                },
                               ),
-                              onPressed: () {
-                                print('IconButton pressed ...');
-                              },
                             ),
                             Text(
                               'Inserir atestado',
@@ -805,21 +840,50 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           children: [
-                            FlutterFlowIconButton(
-                              borderColor: Color(0xFF070707),
-                              borderRadius: 40.0,
-                              borderWidth: 1.0,
-                              buttonSize: 60.0,
-                              fillColor: FlutterFlowTheme.of(context)
-                                  .primaryBackground,
-                              icon: Icon(
-                                Icons.add,
-                                color: FlutterFlowTheme.of(context).primaryText,
-                                size: 24.0,
+                            Builder(
+                              builder: (context) => FlutterFlowIconButton(
+                                borderColor: Color(0xFF070707),
+                                borderRadius: 40.0,
+                                borderWidth: 1.0,
+                                buttonSize: 60.0,
+                                fillColor: FlutterFlowTheme.of(context)
+                                    .primaryBackground,
+                                icon: Icon(
+                                  Icons.add,
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryText,
+                                  size: 24.0,
+                                ),
+                                onPressed: () async {
+                                  await showAlignedDialog(
+                                    context: context,
+                                    isGlobal: true,
+                                    avoidOverflow: false,
+                                    targetAnchor: AlignmentDirectional(0.0, 0.0)
+                                        .resolve(Directionality.of(context)),
+                                    followerAnchor: AlignmentDirectional(
+                                            0.0, 0.0)
+                                        .resolve(Directionality.of(context)),
+                                    builder: (dialogContext) {
+                                      return Material(
+                                        color: Colors.transparent,
+                                        child: GestureDetector(
+                                          onTap: () => _model
+                                                  .unfocusNode.canRequestFocus
+                                              ? FocusScope.of(context)
+                                                  .requestFocus(
+                                                      _model.unfocusNode)
+                                              : FocusScope.of(context)
+                                                  .unfocus(),
+                                          child: ModalPedirAcessoTurmaWidget(
+                                            puserID: widget.pusertype,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ).then((value) => setState(() {}));
+                                },
                               ),
-                              onPressed: () {
-                                print('IconButton pressed ...');
-                              },
                             ),
                             Text(
                               'Solicitar entrar na turma',

@@ -118,8 +118,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           requireAuth: true,
           builder: (context, params) => params.isEmpty
               ? NavBarPage(initialPage: 'HomePage')
-              : HomePageWidget(
-                  pusertype: params.getParam('pusertype', ParamType.String),
+              : NavBarPage(
+                  initialPage: 'HomePage',
+                  page: HomePageWidget(
+                    pusertype: params.getParam('pusertype', ParamType.String),
+                    puserid: params.getParam('puserid', ParamType.String),
+                  ),
                 ),
         ),
         FFRoute(
@@ -156,6 +160,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           path: '/inserirTurma',
           requireAuth: true,
           builder: (context, params) => InserirTurmaWidget(),
+        ),
+        FFRoute(
+          name: 'Relatorios',
+          path: '/relatorios',
+          builder: (context, params) => RelatoriosWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

@@ -9,3 +9,4 @@ export '/pages/turma_details/turma_details_widget.dart' show TurmaDetailsWidget;
 export '/pages/alunomarcarchamada/alunomarcarchamada_widget.dart'
     show AlunomarcarchamadaWidget;
 export '/pages/inserir_turma/inserir_turma_widget.dart' show InserirTurmaWidget;
+export '/pages/relatorios/relatorios_widget.dart' show RelatoriosWidget;
