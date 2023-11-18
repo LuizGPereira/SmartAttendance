@@ -1,22 +1,22 @@
 import '/auth/firebase_auth/auth_util.dart';
-import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import '/flutter_flow/form_field_controller.dart';
 import '/flutter_flow/upload_data.dart';
+import '/pages/modal_ver_atestado/modal_ver_atestado_widget.dart';
 import 'dart:ui';
+import 'package:aligned_dialog/aligned_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'modal_adicionar_atestado_model.dart';
-export 'modal_adicionar_atestado_model.dart';
+import 'modal_avaliar_atestado_model.dart';
+export 'modal_avaliar_atestado_model.dart';
 
-class ModalAdicionarAtestadoWidget extends StatefulWidget {
-  const ModalAdicionarAtestadoWidget({
+class ModalAvaliarAtestadoWidget extends StatefulWidget {
+  const ModalAvaliarAtestadoWidget({
     Key? key,
     required this.puserID,
   }) : super(key: key);
@@ -24,13 +24,13 @@ class ModalAdicionarAtestadoWidget extends StatefulWidget {
   final String? puserID;
 
   @override
-  _ModalAdicionarAtestadoWidgetState createState() =>
-      _ModalAdicionarAtestadoWidgetState();
+  _ModalAvaliarAtestadoWidgetState createState() =>
+      _ModalAvaliarAtestadoWidgetState();
 }
 
-class _ModalAdicionarAtestadoWidgetState
-    extends State<ModalAdicionarAtestadoWidget> {
-  late ModalAdicionarAtestadoModel _model;
+class _ModalAvaliarAtestadoWidgetState
+    extends State<ModalAvaliarAtestadoWidget> {
+  late ModalAvaliarAtestadoModel _model;
 
   @override
   void setState(VoidCallback callback) {
@@ -41,7 +41,7 @@ class _ModalAdicionarAtestadoWidgetState
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => ModalAdicionarAtestadoModel());
+    _model = createModel(context, () => ModalAvaliarAtestadoModel());
 
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
@@ -201,7 +201,7 @@ class _ModalAdicionarAtestadoWidgetState
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         24.0, 12.0, 0.0, 12.0),
                                     child: Text(
-                                      'Para adicionar atestado confirma  a chamada e escolha o arquivo  (.jpg): ',
+                                      'Verificar atestado do aluno.',
                                       maxLines: 3,
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
@@ -242,111 +242,54 @@ class _ModalAdicionarAtestadoWidgetState
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      Expanded(
-                                        child: FlutterFlowDropDown<String>(
-                                          controller: _model
-                                                  .dropDownValueController1 ??=
-                                              FormFieldController<String>(null),
-                                          options: [
-                                            'Turma 1',
-                                            'Turma 2',
-                                            'Turma 3'
-                                          ],
-                                          onChanged: (val) => setState(() =>
-                                              _model.dropDownValue1 = val),
-                                          width: 609.0,
-                                          height: 50.0,
-                                          textStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium,
-                                          hintText:
-                                              'Por favor, selecione a turma',
+                                      Text(
+                                        'atestado.jpg',
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                              fontFamily: 'Readex Pro',
+                                              color: Color(0xFF878787),
+                                            ),
+                                      ),
+                                      Builder(
+                                        builder: (context) =>
+                                            FlutterFlowIconButton(
+                                          borderRadius: 20.0,
+                                          borderWidth: 1.0,
+                                          buttonSize: 40.0,
                                           icon: Icon(
-                                            Icons.keyboard_arrow_down_rounded,
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryText,
+                                            Icons.remove_red_eye_sharp,
+                                            color: Color(0xFF878787),
                                             size: 24.0,
                                           ),
-                                          fillColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .secondaryBackground,
-                                          elevation: 2.0,
-                                          borderColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .alternate,
-                                          borderWidth: 2.0,
-                                          borderRadius: 8.0,
-                                          margin:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  16.0, 4.0, 16.0, 4.0),
-                                          hidesUnderline: true,
-                                          isSearchable: false,
-                                          isMultiSelect: false,
+                                          onPressed: () async {
+                                            await showAlignedDialog(
+                                              context: context,
+                                              isGlobal: true,
+                                              avoidOverflow: false,
+                                              targetAnchor:
+                                                  AlignmentDirectional(0.0, 0.0)
+                                                      .resolve(
+                                                          Directionality.of(
+                                                              context)),
+                                              followerAnchor:
+                                                  AlignmentDirectional(0.0, 0.0)
+                                                      .resolve(
+                                                          Directionality.of(
+                                                              context)),
+                                              builder: (dialogContext) {
+                                                return Material(
+                                                  color: Colors.transparent,
+                                                  child: ModalVerAtestadoWidget(
+                                                    puserID: '',
+                                                  ),
+                                                );
+                                              },
+                                            ).then((value) => setState(() {}));
+                                          },
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  20.0, 10.0, 20.0, 0.0),
-                              child: Container(
-                                width: double.infinity,
-                                height: 60.0,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                  borderRadius: BorderRadius.circular(12.0),
-                                  border: Border.all(
-                                    color: Color(0xFFBFBFBF),
-                                    width: 1.0,
-                                  ),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      8.0, 8.0, 8.0, 8.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      FlutterFlowDropDown<String>(
-                                        controller: _model
-                                                .dropDownValueController2 ??=
-                                            FormFieldController<String>(null),
-                                        options: [
-                                          'Chamada 1',
-                                          'Chamada 2',
-                                          'Chamada 3'
-                                        ],
-                                        onChanged: (val) => setState(
-                                            () => _model.dropDownValue2 = val),
-                                        width: 300.0,
-                                        height: 50.0,
-                                        textStyle: FlutterFlowTheme.of(context)
-                                            .bodyMedium,
-                                        hintText: 'Por favor, selecione a data',
-                                        icon: Icon(
-                                          Icons.keyboard_arrow_down_rounded,
-                                          color: FlutterFlowTheme.of(context)
-                                              .secondaryText,
-                                          size: 24.0,
-                                        ),
-                                        fillColor: FlutterFlowTheme.of(context)
-                                            .secondaryBackground,
-                                        elevation: 2.0,
-                                        borderColor:
-                                            FlutterFlowTheme.of(context)
-                                                .alternate,
-                                        borderWidth: 2.0,
-                                        borderRadius: 8.0,
-                                        margin: EdgeInsetsDirectional.fromSTEB(
-                                            16.0, 4.0, 16.0, 4.0),
-                                        hidesUnderline: true,
-                                        isSearchable: false,
-                                        isMultiSelect: false,
                                       ),
                                     ],
                                   ),
@@ -410,15 +353,14 @@ class _ModalAdicionarAtestadoWidgetState
                                       }
                                     }
                                   },
-                                  text: 'Adicionar jpg',
+                                  text: 'Recusar atestado',
                                   options: FFButtonOptions(
                                     height: 40.0,
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         24.0, 0.0, 24.0, 0.0),
                                     iconPadding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 0.0, 0.0, 0.0),
-                                    color: FlutterFlowTheme.of(context)
-                                        .secondaryText,
+                                    color: Color(0xFFFF2F00),
                                     textStyle: FlutterFlowTheme.of(context)
                                         .titleSmall
                                         .override(
@@ -453,7 +395,7 @@ class _ModalAdicionarAtestadoWidgetState
                                         context.goNamedAuth(
                                             'START', context.mounted);
                                       },
-                                      text: 'Enviar Atestado',
+                                      text: 'Aceitar Atestado',
                                       options: FFButtonOptions(
                                         height: 60.0,
                                         padding: EdgeInsetsDirectional.fromSTEB(

@@ -4,22 +4,24 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/pages/modal_adicionar_atestado/modal_adicionar_atestado_widget.dart';
+import '/pages/z_modal_gerar_codigo_presenca/z_modal_gerar_codigo_presenca_widget.dart';
+import '/pages/z_modal_pedir_acesso_turma/z_modal_pedir_acesso_turma_widget.dart';
 import '/backend/schema/structs/index.dart';
 import 'dart:async';
-import 'home_page_widget.dart' show HomePageWidget;
+import 'z_home_page_bkp_widget.dart' show ZHomePageBkpWidget;
+import 'package:aligned_dialog/aligned_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 
-class HomePageModel extends FlutterFlowModel<HomePageWidget> {
+class ZHomePageBkpModel extends FlutterFlowModel<ZHomePageBkpWidget> {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
-  // Stores action output result for [Backend Call - API (User By External Id)] action in HomePage widget.
-  ApiCallResponse? output;
   // State field(s) for ListView widget.
 
   PagingController<ApiPagingParams, dynamic>? listViewPagingController;

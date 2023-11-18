@@ -81,13 +81,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? NavBarPage() : AuthenWidget(),
+          appStateNotifier.loggedIn ? HomePageWidget() : StartWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
           builder: (context, _) =>
-              appStateNotifier.loggedIn ? NavBarPage() : AuthenWidget(),
+              appStateNotifier.loggedIn ? HomePageWidget() : StartWidget(),
         ),
         FFRoute(
           name: 'START',
@@ -95,17 +95,17 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => StartWidget(),
         ),
         FFRoute(
-          name: 'Historicoprof',
-          path: '/historicoprof',
-          builder: (context, params) => params.isEmpty
-              ? NavBarPage(initialPage: 'Historicoprof')
-              : HistoricoprofWidget(),
+          name: 'ProfHistorico',
+          path: '/profHistorico',
+          builder: (context, params) => ProfHistoricoWidget(
+            pTurmaidHist: params.getParam('pTurmaidHist', ParamType.int),
+          ),
         ),
         FFRoute(
-          name: 'Abrirchamada',
-          path: '/abrirchamada',
+          name: 'ProfIniciarChamada',
+          path: '/profIniciarChamada',
           requireAuth: true,
-          builder: (context, params) => AbrirchamadaWidget(
+          builder: (context, params) => ProfIniciarChamadaWidget(
             pturma: params.getParam('pturma', ParamType.String),
             pturmaid: params.getParam('pturmaid', ParamType.String),
             paluno: params.getParam('paluno', ParamType.String),
@@ -116,15 +116,10 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'HomePage',
           path: '/homePage',
           requireAuth: true,
-          builder: (context, params) => params.isEmpty
-              ? NavBarPage(initialPage: 'HomePage')
-              : NavBarPage(
-                  initialPage: 'HomePage',
-                  page: HomePageWidget(
-                    pusertype: params.getParam('pusertype', ParamType.String),
-                    puserid: params.getParam('puserid', ParamType.String),
-                  ),
-                ),
+          builder: (context, params) => HomePageWidget(
+            pusertype: params.getParam('pusertype', ParamType.String),
+            puserid: params.getParam('puserid', ParamType.String),
+          ),
         ),
         FFRoute(
           name: 'Authen',
@@ -132,18 +127,20 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => AuthenWidget(),
         ),
         FFRoute(
-          name: 'TurmaDetails',
-          path: '/turmaDetails',
-          builder: (context, params) => TurmaDetailsWidget(
+          name: 'HomeTurmaDetails',
+          path: '/homeTurmaDetails',
+          requireAuth: true,
+          builder: (context, params) => HomeTurmaDetailsWidget(
             turmaId: params.getParam('turmaId', ParamType.String),
             turmaNome: params.getParam('turmaNome', ParamType.String),
+            pusertype: params.getParam('pusertype', ParamType.String),
           ),
         ),
         FFRoute(
-          name: 'Alunomarcarchamada',
-          path: '/alunomarcarchamada',
+          name: 'AlunoResponderChamada',
+          path: '/alunoResponderChamada',
           requireAuth: true,
-          builder: (context, params) => AlunomarcarchamadaWidget(
+          builder: (context, params) => AlunoResponderChamadaWidget(
             pturma: params.getParam('pturma', ParamType.String),
             pturmaid: params.getParam('pturmaid', ParamType.String),
             paluno: params.getParam('paluno', ParamType.String),
@@ -156,15 +153,61 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'InserirTurma',
-          path: '/inserirTurma',
+          name: 'zInserirTurma',
+          path: '/zInserirTurma',
           requireAuth: true,
-          builder: (context, params) => InserirTurmaWidget(),
+          builder: (context, params) => ZInserirTurmaWidget(),
         ),
         FFRoute(
-          name: 'Relatorios',
-          path: '/relatorios',
-          builder: (context, params) => RelatoriosWidget(),
+          name: 'zRelatorios',
+          path: '/zRelatorios',
+          builder: (context, params) => ZRelatoriosWidget(),
+        ),
+        FFRoute(
+          name: 'zHomePageBkp',
+          path: '/zHomePageBkp',
+          requireAuth: true,
+          builder: (context, params) => ZHomePageBkpWidget(
+            pusertype: params.getParam('pusertype', ParamType.String),
+            puserid: params.getParam('puserid', ParamType.String),
+          ),
+        ),
+        FFRoute(
+          name: 'zAlunoResponderChamadaBkp',
+          path: '/zAlunoResponderChamadaBkp',
+          requireAuth: true,
+          builder: (context, params) => ZAlunoResponderChamadaBkpWidget(
+            pturma: params.getParam('pturma', ParamType.String),
+            pturmaid: params.getParam('pturmaid', ParamType.String),
+            paluno: params.getParam('paluno', ParamType.String),
+            palunoid: params.getParam('palunoid', ParamType.String),
+            pdentrodoraio: params.getParam('pdentrodoraio', ParamType.bool),
+            pmarcadapresenca:
+                params.getParam('pmarcadapresenca', ParamType.bool),
+            pchamadaencerrada:
+                params.getParam('pchamadaencerrada', ParamType.bool),
+          ),
+        ),
+        FFRoute(
+          name: 'TurmaChamadaDetails',
+          path: '/turmaChamadaDetails',
+          requireAuth: true,
+          builder: (context, params) => TurmaChamadaDetailsWidget(
+            turmaId: params.getParam('turmaId', ParamType.String),
+            turmaNome: params.getParam('turmaNome', ParamType.String),
+            pusertype: params.getParam('pusertype', ParamType.String),
+          ),
+        ),
+        FFRoute(
+          name: 'zProfIniciarChamadaBkp',
+          path: '/zProfIniciarChamadaBkp',
+          requireAuth: true,
+          builder: (context, params) => ZProfIniciarChamadaBkpWidget(
+            pturma: params.getParam('pturma', ParamType.String),
+            pturmaid: params.getParam('pturmaid', ParamType.String),
+            paluno: params.getParam('paluno', ParamType.String),
+            palunoid: params.getParam('palunoid', ParamType.String),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
@@ -331,7 +374,7 @@ class FFRoute {
 
           if (requireAuth && !appStateNotifier.loggedIn) {
             appStateNotifier.setRedirectLocationIfUnset(state.location);
-            return '/authen';
+            return '/start';
           }
           return null;
         },

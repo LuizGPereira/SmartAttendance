@@ -5,18 +5,17 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
-import '/flutter_flow/upload_data.dart';
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'modal_adicionar_atestado_model.dart';
-export 'modal_adicionar_atestado_model.dart';
+import 'z_modal_pedir_acesso_turma_model.dart';
+export 'z_modal_pedir_acesso_turma_model.dart';
 
-class ModalAdicionarAtestadoWidget extends StatefulWidget {
-  const ModalAdicionarAtestadoWidget({
+class ZModalPedirAcessoTurmaWidget extends StatefulWidget {
+  const ZModalPedirAcessoTurmaWidget({
     Key? key,
     required this.puserID,
   }) : super(key: key);
@@ -24,13 +23,13 @@ class ModalAdicionarAtestadoWidget extends StatefulWidget {
   final String? puserID;
 
   @override
-  _ModalAdicionarAtestadoWidgetState createState() =>
-      _ModalAdicionarAtestadoWidgetState();
+  _ZModalPedirAcessoTurmaWidgetState createState() =>
+      _ZModalPedirAcessoTurmaWidgetState();
 }
 
-class _ModalAdicionarAtestadoWidgetState
-    extends State<ModalAdicionarAtestadoWidget> {
-  late ModalAdicionarAtestadoModel _model;
+class _ZModalPedirAcessoTurmaWidgetState
+    extends State<ZModalPedirAcessoTurmaWidget> {
+  late ZModalPedirAcessoTurmaModel _model;
 
   @override
   void setState(VoidCallback callback) {
@@ -41,7 +40,7 @@ class _ModalAdicionarAtestadoWidgetState
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => ModalAdicionarAtestadoModel());
+    _model = createModel(context, () => ZModalPedirAcessoTurmaModel());
 
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
@@ -201,7 +200,7 @@ class _ModalAdicionarAtestadoWidgetState
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         24.0, 12.0, 0.0, 12.0),
                                     child: Text(
-                                      'Para adicionar atestado confirma  a chamada e escolha o arquivo  (.jpg): ',
+                                      'Deseja pedir para participar da turma? ',
                                       maxLines: 3,
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
@@ -262,7 +261,7 @@ class _ModalAdicionarAtestadoWidgetState
                                               FlutterFlowTheme.of(context)
                                                   .bodyMedium,
                                           hintText:
-                                              'Por favor, selecione a turma',
+                                              'Por favor, selecione o professor',
                                           icon: Icon(
                                             Icons.keyboard_arrow_down_rounded,
                                             color: FlutterFlowTheme.of(context)
@@ -327,7 +326,8 @@ class _ModalAdicionarAtestadoWidgetState
                                         height: 50.0,
                                         textStyle: FlutterFlowTheme.of(context)
                                             .bodyMedium,
-                                        hintText: 'Por favor, selecione a data',
+                                        hintText:
+                                            'Por favor, selecione a turma',
                                         icon: Icon(
                                           Icons.keyboard_arrow_down_rounded,
                                           color: FlutterFlowTheme.of(context)
@@ -355,88 +355,6 @@ class _ModalAdicionarAtestadoWidgetState
                             ),
                             Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
-                                  20.0, 12.0, 20.0, 0.0),
-                              child: Container(
-                                width: double.infinity,
-                                height: 60.0,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(12.0),
-                                  shape: BoxShape.rectangle,
-                                  border: Border.all(
-                                    color: Color(0xFFE0E3E7),
-                                    width: 1.0,
-                                  ),
-                                ),
-                                child: FFButtonWidget(
-                                  onPressed: () async {
-                                    final selectedMedia = await selectMedia(
-                                      mediaSource: MediaSource.photoGallery,
-                                      multiImage: false,
-                                    );
-                                    if (selectedMedia != null &&
-                                        selectedMedia.every((m) =>
-                                            validateFileFormat(
-                                                m.storagePath, context))) {
-                                      setState(
-                                          () => _model.isDataUploading = true);
-                                      var selectedUploadedFiles =
-                                          <FFUploadedFile>[];
-
-                                      try {
-                                        selectedUploadedFiles = selectedMedia
-                                            .map((m) => FFUploadedFile(
-                                                  name: m.storagePath
-                                                      .split('/')
-                                                      .last,
-                                                  bytes: m.bytes,
-                                                  height: m.dimensions?.height,
-                                                  width: m.dimensions?.width,
-                                                  blurHash: m.blurHash,
-                                                ))
-                                            .toList();
-                                      } finally {
-                                        _model.isDataUploading = false;
-                                      }
-                                      if (selectedUploadedFiles.length ==
-                                          selectedMedia.length) {
-                                        setState(() {
-                                          _model.uploadedLocalFile =
-                                              selectedUploadedFiles.first;
-                                        });
-                                      } else {
-                                        setState(() {});
-                                        return;
-                                      }
-                                    }
-                                  },
-                                  text: 'Adicionar jpg',
-                                  options: FFButtonOptions(
-                                    height: 40.0,
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        24.0, 0.0, 24.0, 0.0),
-                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 0.0, 0.0, 0.0),
-                                    color: FlutterFlowTheme.of(context)
-                                        .secondaryText,
-                                    textStyle: FlutterFlowTheme.of(context)
-                                        .titleSmall
-                                        .override(
-                                          fontFamily: 'Readex Pro',
-                                          color: Colors.white,
-                                        ),
-                                    elevation: 3.0,
-                                    borderSide: BorderSide(
-                                      color: Colors.transparent,
-                                      width: 1.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 20.0, 0.0, 20.0),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
@@ -453,7 +371,7 @@ class _ModalAdicionarAtestadoWidgetState
                                         context.goNamedAuth(
                                             'START', context.mounted);
                                       },
-                                      text: 'Enviar Atestado',
+                                      text: 'Solicitar entrada',
                                       options: FFButtonOptions(
                                         height: 60.0,
                                         padding: EdgeInsetsDirectional.fromSTEB(

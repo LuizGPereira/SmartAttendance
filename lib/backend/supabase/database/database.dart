@@ -5,6 +5,8 @@ export '../supabase.dart';
 export 'row.dart';
 export 'table.dart';
 
+export 'tables/chamada.dart';
 export 'tables/turmas.dart';
 export 'tables/user.dart';
 export 'tables/matricula.dart';
+export 'tables/historico.dart';
