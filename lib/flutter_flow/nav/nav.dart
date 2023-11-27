@@ -98,7 +98,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'ProfHistorico',
           path: '/profHistorico',
           builder: (context, params) => ProfHistoricoWidget(
-            pTurmaidHist: params.getParam('pTurmaidHist', ParamType.int),
+            pTurmaidHist: params.getParam('pTurmaidHist', ParamType.String),
+            turmaNome: params.getParam('turmaNome', ParamType.String),
           ),
         ),
         FFRoute(
@@ -116,10 +117,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'HomePage',
           path: '/homePage',
           requireAuth: true,
-          builder: (context, params) => HomePageWidget(
-            pusertype: params.getParam('pusertype', ParamType.String),
-            puserid: params.getParam('puserid', ParamType.String),
-          ),
+          builder: (context, params) => HomePageWidget(),
         ),
         FFRoute(
           name: 'Authen',
@@ -133,7 +131,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => HomeTurmaDetailsWidget(
             turmaId: params.getParam('turmaId', ParamType.String),
             turmaNome: params.getParam('turmaNome', ParamType.String),
-            pusertype: params.getParam('pusertype', ParamType.String),
           ),
         ),
         FFRoute(
@@ -142,14 +139,9 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           requireAuth: true,
           builder: (context, params) => AlunoResponderChamadaWidget(
             pturma: params.getParam('pturma', ParamType.String),
-            pturmaid: params.getParam('pturmaid', ParamType.String),
             paluno: params.getParam('paluno', ParamType.String),
             palunoid: params.getParam('palunoid', ParamType.String),
-            pdentrodoraio: params.getParam('pdentrodoraio', ParamType.bool),
-            pmarcadapresenca:
-                params.getParam('pmarcadapresenca', ParamType.bool),
-            pchamadaencerrada:
-                params.getParam('pchamadaencerrada', ParamType.bool),
+            pchamadaid: params.getParam('pchamadaid', ParamType.String),
           ),
         ),
         FFRoute(
@@ -189,13 +181,14 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'TurmaChamadaDetails',
-          path: '/turmaChamadaDetails',
+          name: 'Detalhe_Chamada',
+          path: '/detalheChamada',
           requireAuth: true,
-          builder: (context, params) => TurmaChamadaDetailsWidget(
+          builder: (context, params) => DetalheChamadaWidget(
             turmaId: params.getParam('turmaId', ParamType.String),
             turmaNome: params.getParam('turmaNome', ParamType.String),
-            pusertype: params.getParam('pusertype', ParamType.String),
+            chamadaId: params.getParam('chamadaId', ParamType.String),
+            chamadaData: params.getParam('chamadaData', ParamType.String),
           ),
         ),
         FFRoute(
@@ -207,6 +200,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             pturmaid: params.getParam('pturmaid', ParamType.String),
             paluno: params.getParam('paluno', ParamType.String),
             palunoid: params.getParam('palunoid', ParamType.String),
+          ),
+        ),
+        FFRoute(
+          name: 'zProfHistoricoBkp',
+          path: '/zProfHistoricoBkp',
+          builder: (context, params) => ZProfHistoricoBkpWidget(
+            pTurmaidHist: params.getParam('pTurmaidHist', ParamType.int),
           ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),

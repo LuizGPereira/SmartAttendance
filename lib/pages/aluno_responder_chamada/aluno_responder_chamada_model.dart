@@ -1,3 +1,4 @@
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_google_map.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -28,6 +29,9 @@ class AlunoResponderChamadaModel
   );
   FlutterFlowTimerController timerController =
       FlutterFlowTimerController(StopWatchTimer(mode: StopWatchMode.countDown));
+
+  // Stores action output result for [Backend Call - API (Editar Presenca)] action in Button widget.
+  ApiCallResponse? apiResult99i;
 
   /// Initialization and disposal methods.
 

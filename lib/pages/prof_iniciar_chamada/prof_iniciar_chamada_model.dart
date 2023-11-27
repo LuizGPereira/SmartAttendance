@@ -1,3 +1,4 @@
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_google_map.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -19,14 +20,14 @@ class ProfIniciarChamadaModel
   // State field(s) for GoogleMap widget.
   LatLng? googleMapsCenter;
   final googleMapsController = Completer<GoogleMapController>();
-  // State field(s) for TextField widget.
-  FocusNode? textFieldFocusNode1;
-  TextEditingController? textController1;
-  String? Function(BuildContext, String?)? textController1Validator;
-  // State field(s) for TextField widget.
-  FocusNode? textFieldFocusNode2;
-  TextEditingController? textController2;
-  String? Function(BuildContext, String?)? textController2Validator;
+  // State field(s) for temp_aberto widget.
+  FocusNode? tempAbertoFocusNode;
+  TextEditingController? tempAbertoController;
+  String? Function(BuildContext, String?)? tempAbertoControllerValidator;
+  // State field(s) for raio widget.
+  FocusNode? raioFocusNode;
+  TextEditingController? raioController;
+  String? Function(BuildContext, String?)? raioControllerValidator;
   // State field(s) for Timer widget.
   int timerMilliseconds = 60000;
   String timerValue = StopWatchTimer.getDisplayTime(
@@ -37,6 +38,8 @@ class ProfIniciarChamadaModel
   FlutterFlowTimerController timerController =
       FlutterFlowTimerController(StopWatchTimer(mode: StopWatchMode.countDown));
 
+  // Stores action output result for [Backend Call - API (Iniciar Chamada)] action in Button widget.
+  ApiCallResponse? apiResultj6s;
   // State field(s) for Checkbox widget.
   bool? checkboxValue;
 
@@ -46,11 +49,11 @@ class ProfIniciarChamadaModel
 
   void dispose() {
     unfocusNode.dispose();
-    textFieldFocusNode1?.dispose();
-    textController1?.dispose();
+    tempAbertoFocusNode?.dispose();
+    tempAbertoController?.dispose();
 
-    textFieldFocusNode2?.dispose();
-    textController2?.dispose();
+    raioFocusNode?.dispose();
+    raioController?.dispose();
 
     timerController.dispose();
   }

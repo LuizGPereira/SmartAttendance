@@ -14,7 +14,8 @@ class UserByExternalIdCall {
   }) async {
     return ApiManager.instance.makeApiCall(
       callName: 'User By External Id',
-      apiUrl: 'http://157.230.212.240:8000/usuario/external_id/${externalId}/',
+      apiUrl:
+          'https://smartattendances.online/usuario/external_id/${externalId}/',
       callType: ApiCallType.GET,
       headers: {},
       params: {},
@@ -45,11 +46,12 @@ class UserByExternalIdCall {
 
 class TurmasByUserPrivateIdCall {
   static Future<ApiCallResponse> call({
-    int? privateId,
+    String? privateId = '',
   }) async {
     return ApiManager.instance.makeApiCall(
       callName: 'Turmas By User Private Id',
-      apiUrl: 'http://157.230.212.240:8000/usuario/${privateId}/listar_turma/',
+      apiUrl:
+          'https://smartattendances.online/usuario/${privateId}/listar_turma/',
       callType: ApiCallType.GET,
       headers: {},
       params: {},
@@ -63,6 +65,164 @@ class TurmasByUserPrivateIdCall {
   static dynamic turmas(dynamic response) => getJsonField(
         response,
         r'''$["Turmas"]''',
+        true,
+      );
+}
+
+class HistoricoByTurmaIdCall {
+  static Future<ApiCallResponse> call({
+    String? privateId = '',
+  }) async {
+    return ApiManager.instance.makeApiCall(
+      callName: 'Historico By Turma Id',
+      apiUrl:
+          'https://smartattendances.online/historico/${privateId}/retornar_historico/',
+      callType: ApiCallType.GET,
+      headers: {},
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+    );
+  }
+
+  static dynamic presencasAluno(dynamic response) => getJsonField(
+        response,
+        r'''$.presencas_aluno''',
+        true,
+      );
+  static dynamic faltasAluno(dynamic response) => getJsonField(
+        response,
+        r'''$.faltas_aluno''',
+        true,
+      );
+}
+
+class UserByIdCall {
+  static Future<ApiCallResponse> call({
+    String? id = '',
+  }) async {
+    return ApiManager.instance.makeApiCall(
+      callName: 'User By Id',
+      apiUrl: 'https://smartattendances.online/usuario/${id}/',
+      callType: ApiCallType.GET,
+      headers: {},
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+    );
+  }
+}
+
+class IniciarChamadaCall {
+  static Future<ApiCallResponse> call({
+    String? turma = '',
+    double? raio,
+    String? dataFim = '',
+    String? latLong = '',
+  }) async {
+    final ffApiRequestBody = '''
+{
+  "latitude": 1,
+  "longitude": 1,
+  "latLong":"${latLong}",
+  "turma": ${turma},
+  "raio": ${raio},
+  "data_fim": "${dataFim}"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'Iniciar Chamada',
+      apiUrl: 'https://smartattendances.online/turma/iniciar_chamada/',
+      callType: ApiCallType.PUT,
+      headers: {
+        'Content-Type': 'application/json',
+        'accept': 'application/json',
+      },
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+    );
+  }
+}
+
+class ListarPresencasByIdChamadaCall {
+  static Future<ApiCallResponse> call({
+    String? id = '',
+  }) async {
+    return ApiManager.instance.makeApiCall(
+      callName: 'Listar Presencas By IdChamada',
+      apiUrl: 'https://smartattendances.online/chamada/${id}/lista_presenca/',
+      callType: ApiCallType.GET,
+      headers: {},
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+    );
+  }
+}
+
+class EditarPresencaCall {
+  static Future<ApiCallResponse> call({
+    String? aluno = '',
+    String? chamada = '',
+    String? status = '',
+    String? caminhoAtestado = '',
+  }) async {
+    final ffApiRequestBody = '''
+{
+  "status": "${status}",
+  "aluno": ${aluno},
+  "chamada": ${chamada}
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'Editar Presenca',
+      apiUrl: 'https://smartattendances.online/presenca/editar_presenca/',
+      callType: ApiCallType.PATCH,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+    );
+  }
+}
+
+class ListarChamadasDaTurmaCall {
+  static Future<ApiCallResponse> call({
+    String? usuario = '',
+    String? turma = '',
+  }) async {
+    return ApiManager.instance.makeApiCall(
+      callName: 'Listar Chamadas da Turma',
+      apiUrl: 'https://smartattendances.online/turma/listar_chamada/',
+      callType: ApiCallType.GET,
+      headers: {},
+      params: {
+        'user': usuario,
+        'turma': turma,
+      },
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+    );
+  }
+
+  static dynamic chamadas(dynamic response) => getJsonField(
+        response,
+        r'''$.chamadas''',
         true,
       );
 }

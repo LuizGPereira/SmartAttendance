@@ -1,3 +1,4 @@
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_google_map.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -16,24 +17,15 @@ class AlunoResponderChamadaWidget extends StatefulWidget {
   const AlunoResponderChamadaWidget({
     Key? key,
     required this.pturma,
-    required this.pturmaid,
     this.paluno,
     this.palunoid,
-    bool? pdentrodoraio,
-    bool? pmarcadapresenca,
-    bool? pchamadaencerrada,
-  })  : this.pdentrodoraio = pdentrodoraio ?? true,
-        this.pmarcadapresenca = pmarcadapresenca ?? true,
-        this.pchamadaencerrada = pchamadaencerrada ?? true,
-        super(key: key);
+    required this.pchamadaid,
+  }) : super(key: key);
 
   final String? pturma;
-  final String? pturmaid;
   final String? paluno;
   final String? palunoid;
-  final bool pdentrodoraio;
-  final bool pmarcadapresenca;
-  final bool pchamadaencerrada;
+  final String? pchamadaid;
 
   @override
   _AlunoResponderChamadaWidgetState createState() =>
@@ -45,12 +37,15 @@ class _AlunoResponderChamadaWidgetState
   late AlunoResponderChamadaModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  LatLng? currentUserLocationValue;
 
   @override
   void initState() {
     super.initState();
     _model = createModel(context, () => AlunoResponderChamadaModel());
 
+    getCurrentUserLocation(defaultLocation: LatLng(0.0, 0.0), cached: true)
+        .then((loc) => setState(() => currentUserLocationValue = loc));
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
@@ -73,6 +68,22 @@ class _AlunoResponderChamadaWidgetState
     }
 
     context.watch<FFAppState>();
+    if (currentUserLocationValue == null) {
+      return Container(
+        color: FlutterFlowTheme.of(context).primaryBackground,
+        child: Center(
+          child: SizedBox(
+            width: 50.0,
+            height: 50.0,
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(
+                FlutterFlowTheme.of(context).primary,
+              ),
+            ),
+          ),
+        ),
+      );
+    }
 
     return GestureDetector(
       onTap: () => _model.unfocusNode.canRequestFocus
@@ -95,8 +106,8 @@ class _AlunoResponderChamadaWidgetState
               color: Colors.white,
               size: 30.0,
             ),
-            onPressed: () {
-              print('IconButton pressed ...');
+            onPressed: () async {
+              context.safePop();
             },
           ),
           title: Padding(
@@ -134,25 +145,35 @@ class _AlunoResponderChamadaWidgetState
                             color: FlutterFlowTheme.of(context)
                                 .secondaryBackground,
                           ),
-                          child: FlutterFlowGoogleMap(
-                            controller: _model.googleMapsController,
-                            onCameraIdle: (latLng) =>
-                                _model.googleMapsCenter = latLng,
-                            initialLocation: _model.googleMapsCenter ??=
-                                LatLng(-22.9041, -43.1377),
-                            markerColor: GoogleMarkerColor.violet,
-                            mapType: MapType.terrain,
-                            style: GoogleMapStyle.standard,
-                            initialZoom: 14.0,
-                            allowInteraction: true,
-                            allowZoom: true,
-                            showZoomControls: true,
-                            showLocation: true,
-                            showCompass: false,
-                            showMapToolbar: true,
-                            showTraffic: false,
-                            centerMapOnMarkerTap: true,
-                          ),
+                          child: Builder(builder: (context) {
+                            final _googleMapMarker = currentUserLocationValue;
+                            return FlutterFlowGoogleMap(
+                              controller: _model.googleMapsController,
+                              onCameraIdle: (latLng) =>
+                                  _model.googleMapsCenter = latLng,
+                              initialLocation: _model.googleMapsCenter ??=
+                                  currentUserLocationValue!,
+                              markers: [
+                                if (_googleMapMarker != null)
+                                  FlutterFlowMarker(
+                                    _googleMapMarker.serialize(),
+                                    _googleMapMarker,
+                                  ),
+                              ],
+                              markerColor: GoogleMarkerColor.red,
+                              mapType: MapType.terrain,
+                              style: GoogleMapStyle.standard,
+                              initialZoom: 14.0,
+                              allowInteraction: true,
+                              allowZoom: true,
+                              showZoomControls: true,
+                              showLocation: true,
+                              showCompass: false,
+                              showMapToolbar: true,
+                              showTraffic: false,
+                              centerMapOnMarkerTap: true,
+                            );
+                          }),
                         ),
                       ),
                     ],
@@ -197,96 +218,37 @@ class _AlunoResponderChamadaWidgetState
                 ),
                 Padding(
                   padding:
-                      EdgeInsetsDirectional.fromSTEB(10.0, 10.0, 0.0, 10.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Dentro do  raio (m)?',
-                        style: FlutterFlowTheme.of(context).bodyMedium,
-                      ),
-                      Padding(
-                        padding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 35.0, 0.0),
-                        child: Icon(
-                          Icons.done_all_rounded,
-                          color: widget.pdentrodoraio
-                              ? Color(0xFF0959F3)
-                              : Color(0xFF878787),
-                          size: 24.0,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 10.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding:
-                            EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 0.0, 0.0),
-                        child: Text(
-                          'Marcada presença ? ',
-                          style: FlutterFlowTheme.of(context).bodyMedium,
-                        ),
-                      ),
-                      Padding(
-                        padding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 35.0, 0.0),
-                        child: Icon(
-                          Icons.done_all_rounded,
-                          color: widget.pmarcadapresenca
-                              ? Color(0xFF3A9AFF)
-                              : Color(0xFF878787),
-                          size: 24.0,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 5.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                10.0, 10.0, 0.0, 10.0),
-                            child: Text(
-                              'Chamada encerrada ? ',
-                              style: FlutterFlowTheme.of(context).bodyMedium,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 35.0, 0.0),
-                        child: Icon(
-                          Icons.done_all_rounded,
-                          color: widget.pchamadaencerrada
-                              ? Color(0xFF3A9AFF)
-                              : Color(0xFF878787),
-                          size: 24.0,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding:
                       EdgeInsetsDirectional.fromSTEB(25.0, 25.0, 25.0, 25.0),
                   child: FFButtonWidget(
-                    onPressed: () {
-                      print('Button pressed ...');
+                    onPressed: () async {
+                      _model.apiResult99i = await EditarPresencaCall.call(
+                        aluno: widget.palunoid,
+                        chamada: widget.pchamadaid,
+                        status: 'P',
+                      );
+                      if ((_model.apiResult99i?.succeeded ?? true)) {
+                        context.safePop();
+                      } else {
+                        await showDialog(
+                          context: context,
+                          builder: (alertDialogContext) {
+                            return AlertDialog(
+                              title: Text('Ocorreu um problema!'),
+                              content:
+                                  Text('Não foi possível confirmar presença.'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () =>
+                                      Navigator.pop(alertDialogContext),
+                                  child: Text('Ok'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
+
+                      setState(() {});
                     },
                     text: 'Confirmar presença',
                     options: FFButtonOptions(

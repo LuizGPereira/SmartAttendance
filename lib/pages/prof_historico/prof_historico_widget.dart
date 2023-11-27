@@ -1,9 +1,10 @@
-import '/backend/supabase/supabase.dart';
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,9 +16,11 @@ class ProfHistoricoWidget extends StatefulWidget {
   const ProfHistoricoWidget({
     Key? key,
     required this.pTurmaidHist,
+    this.turmaNome,
   }) : super(key: key);
 
-  final int? pTurmaidHist;
+  final String? pTurmaidHist;
+  final String? turmaNome;
 
   @override
   _ProfHistoricoWidgetState createState() => _ProfHistoricoWidgetState();
@@ -32,6 +35,13 @@ class _ProfHistoricoWidgetState extends State<ProfHistoricoWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => ProfHistoricoModel());
+
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.apiResultzsv = await HistoricoByTurmaIdCall.call(
+        privateId: widget.pTurmaidHist,
+      );
+    });
 
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
@@ -82,8 +92,8 @@ class _ProfHistoricoWidgetState extends State<ProfHistoricoWidget> {
           ),
           title: Text(
             valueOrDefault<String>(
-              widget.pTurmaidHist?.toString(),
-              'TurmaNome',
+              widget.turmaNome,
+              'Turma',
             ),
             style: FlutterFlowTheme.of(context).headlineMedium.override(
                   fontFamily: 'Outfit',
@@ -180,9 +190,9 @@ class _ProfHistoricoWidgetState extends State<ProfHistoricoWidget> {
                                 color: FlutterFlowTheme.of(context)
                                     .secondaryBackground,
                               ),
-                              child: FutureBuilder<List<HistoricoRow>>(
-                                future: HistoricoTable().queryRows(
-                                  queryFn: (q) => q,
+                              child: FutureBuilder<ApiCallResponse>(
+                                future: HistoricoByTurmaIdCall.call(
+                                  privateId: widget.pTurmaidHist,
                                 ),
                                 builder: (context, snapshot) {
                                   // Customize what your widget looks like when it's loading.
@@ -201,25 +211,37 @@ class _ProfHistoricoWidgetState extends State<ProfHistoricoWidget> {
                                       ),
                                     );
                                   }
-                                  List<HistoricoRow> listViewHistoricoRowList =
+                                  final listViewHistoricoByTurmaIdResponse =
                                       snapshot.data!;
-                                  return ListView.builder(
-                                    padding: EdgeInsets.zero,
-                                    scrollDirection: Axis.vertical,
-                                    itemCount: listViewHistoricoRowList.length,
-                                    itemBuilder: (context, listViewIndex) {
-                                      final listViewHistoricoRow =
-                                          listViewHistoricoRowList[
-                                              listViewIndex];
-                                      return Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          Text(
-                                            'Fulano',
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium,
-                                          ),
-                                        ],
+                                  return Builder(
+                                    builder: (context) {
+                                      final presenca = getJsonField(
+                                        listViewHistoricoByTurmaIdResponse
+                                            .jsonBody,
+                                        r'''$['presencas_aluno']''',
+                                      ).toList();
+                                      return ListView.builder(
+                                        padding: EdgeInsets.zero,
+                                        scrollDirection: Axis.vertical,
+                                        itemCount: presenca.length,
+                                        itemBuilder: (context, presencaIndex) {
+                                          final presencaItem =
+                                              presenca[presencaIndex];
+                                          return Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              Text(
+                                                getJsonField(
+                                                  presencaItem,
+                                                  r'''$['nome']''',
+                                                ).toString(),
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium,
+                                              ),
+                                            ],
+                                          );
+                                        },
                                       );
                                     },
                                   );
@@ -258,9 +280,9 @@ class _ProfHistoricoWidgetState extends State<ProfHistoricoWidget> {
                                 color: FlutterFlowTheme.of(context)
                                     .secondaryBackground,
                               ),
-                              child: FutureBuilder<List<HistoricoRow>>(
-                                future: HistoricoTable().queryRows(
-                                  queryFn: (q) => q,
+                              child: FutureBuilder<ApiCallResponse>(
+                                future: HistoricoByTurmaIdCall.call(
+                                  privateId: widget.pTurmaidHist,
                                 ),
                                 builder: (context, snapshot) {
                                   // Customize what your widget looks like when it's loading.
@@ -279,27 +301,40 @@ class _ProfHistoricoWidgetState extends State<ProfHistoricoWidget> {
                                       ),
                                     );
                                   }
-                                  List<HistoricoRow> listViewHistoricoRowList =
+                                  final listViewHistoricoByTurmaIdResponse =
                                       snapshot.data!;
-                                  return ListView.builder(
-                                    padding: EdgeInsets.zero,
-                                    scrollDirection: Axis.vertical,
-                                    itemCount: listViewHistoricoRowList.length,
-                                    itemBuilder: (context, listViewIndex) {
-                                      final listViewHistoricoRow =
-                                          listViewHistoricoRowList[
-                                              listViewIndex];
-                                      return Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            '86',
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium,
-                                          ),
-                                        ],
+                                  return Builder(
+                                    builder: (context) {
+                                      final mediaPresenca = getJsonField(
+                                        listViewHistoricoByTurmaIdResponse
+                                            .jsonBody,
+                                        r'''$['presencas_aluno']''',
+                                      ).toList();
+                                      return ListView.builder(
+                                        padding: EdgeInsets.zero,
+                                        scrollDirection: Axis.vertical,
+                                        itemCount: mediaPresenca.length,
+                                        itemBuilder:
+                                            (context, mediaPresencaIndex) {
+                                          final mediaPresencaItem =
+                                              mediaPresenca[mediaPresencaIndex];
+                                          return Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                getJsonField(
+                                                  mediaPresencaItem,
+                                                  r'''$['porcentagem_presenca']''',
+                                                ).toString(),
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium,
+                                              ),
+                                            ],
+                                          );
+                                        },
                                       );
                                     },
                                   );
@@ -338,9 +373,9 @@ class _ProfHistoricoWidgetState extends State<ProfHistoricoWidget> {
                                 color: FlutterFlowTheme.of(context)
                                     .secondaryBackground,
                               ),
-                              child: FutureBuilder<List<HistoricoRow>>(
-                                future: HistoricoTable().queryRows(
-                                  queryFn: (q) => q,
+                              child: FutureBuilder<ApiCallResponse>(
+                                future: HistoricoByTurmaIdCall.call(
+                                  privateId: widget.pTurmaidHist,
                                 ),
                                 builder: (context, snapshot) {
                                   // Customize what your widget looks like when it's loading.
@@ -359,27 +394,38 @@ class _ProfHistoricoWidgetState extends State<ProfHistoricoWidget> {
                                       ),
                                     );
                                   }
-                                  List<HistoricoRow> listViewHistoricoRowList =
+                                  final listViewHistoricoByTurmaIdResponse =
                                       snapshot.data!;
-                                  return ListView.builder(
-                                    padding: EdgeInsets.zero,
-                                    scrollDirection: Axis.vertical,
-                                    itemCount: listViewHistoricoRowList.length,
-                                    itemBuilder: (context, listViewIndex) {
-                                      final listViewHistoricoRow =
-                                          listViewHistoricoRowList[
-                                              listViewIndex];
-                                      return Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            '2',
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium,
-                                          ),
-                                        ],
+                                  return Builder(
+                                    builder: (context) {
+                                      final falta = getJsonField(
+                                        listViewHistoricoByTurmaIdResponse
+                                            .jsonBody,
+                                        r'''$['faltas_aluno']''',
+                                      ).toList();
+                                      return ListView.builder(
+                                        padding: EdgeInsets.zero,
+                                        scrollDirection: Axis.vertical,
+                                        itemCount: falta.length,
+                                        itemBuilder: (context, faltaIndex) {
+                                          final faltaItem = falta[faltaIndex];
+                                          return Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                getJsonField(
+                                                  faltaItem,
+                                                  r'''$['faltas']''',
+                                                ).toString(),
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium,
+                                              ),
+                                            ],
+                                          );
+                                        },
                                       );
                                     },
                                   );

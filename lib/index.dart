@@ -17,7 +17,9 @@ export '/pages/z_home_page_bkp/z_home_page_bkp_widget.dart'
     show ZHomePageBkpWidget;
 export '/pages/z_aluno_responder_chamada_bkp/z_aluno_responder_chamada_bkp_widget.dart'
     show ZAlunoResponderChamadaBkpWidget;
-export '/pages/turma_chamada_details/turma_chamada_details_widget.dart'
-    show TurmaChamadaDetailsWidget;
+export '/pages/detalhe_chamada/detalhe_chamada_widget.dart'
+    show DetalheChamadaWidget;
 export '/pages/z_prof_iniciar_chamada_bkp/z_prof_iniciar_chamada_bkp_widget.dart'
     show ZProfIniciarChamadaBkpWidget;
+export '/pages/z_prof_historico_bkp/z_prof_historico_bkp_widget.dart'
+    show ZProfHistoricoBkpWidget;

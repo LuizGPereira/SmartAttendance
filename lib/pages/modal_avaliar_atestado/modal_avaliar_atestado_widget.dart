@@ -18,10 +18,12 @@ export 'modal_avaliar_atestado_model.dart';
 class ModalAvaliarAtestadoWidget extends StatefulWidget {
   const ModalAvaliarAtestadoWidget({
     Key? key,
-    required this.puserID,
+    required this.presencaId,
+    required this.alunoNome,
   }) : super(key: key);
 
-  final String? puserID;
+  final String? presencaId;
+  final String? alunoNome;
 
   @override
   _ModalAvaliarAtestadoWidgetState createState() =>

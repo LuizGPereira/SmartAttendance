@@ -1,4 +1,5 @@
-import '/backend/supabase/supabase.dart';
+import '/auth/firebase_auth/auth_util.dart';
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -13,10 +14,14 @@ export 'modal_validarpresenca_model.dart';
 class ModalValidarpresencaWidget extends StatefulWidget {
   const ModalValidarpresencaWidget({
     Key? key,
-    required this.idaluno,
+    required this.alunoNome,
+    required this.alunoId,
+    required this.chamadaId,
   }) : super(key: key);
 
-  final UserRow? idaluno;
+  final String? alunoNome;
+  final String? alunoId;
+  final String? chamadaId;
 
   @override
   _ModalValidarpresencaWidgetState createState() =>
@@ -119,28 +124,24 @@ class _ModalValidarpresencaWidgetState
                             mainAxisSize: MainAxisSize.max,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                valueOrDefault<String>(
-                                  widget.idaluno?.nome,
-                                  'Nome',
+                              AuthUserStreamWidget(
+                                builder: (context) => Text(
+                                  currentUserDisplayName,
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyLarge
+                                      .override(
+                                        fontFamily: 'Inter',
+                                        color: Color(0xFF101518),
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.normal,
+                                      ),
                                 ),
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyLarge
-                                    .override(
-                                      fontFamily: 'Inter',
-                                      color: Color(0xFF101518),
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.normal,
-                                    ),
                               ),
                               Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 4.0, 0.0, 0.0),
                                 child: Text(
-                                  valueOrDefault<String>(
-                                    widget.idaluno?.email,
-                                    'email_aluno',
-                                  ),
+                                  widget.alunoNome!,
                                   style: FlutterFlowTheme.of(context)
                                       .labelSmall
                                       .override(
@@ -165,8 +166,8 @@ class _ModalValidarpresencaWidgetState
                           color: Color(0xFF57636C),
                           size: 24.0,
                         ),
-                        onPressed: () {
-                          print('IconButton pressed ...');
+                        onPressed: () async {
+                          context.safePop();
                         },
                       ),
                     ],
@@ -336,8 +337,8 @@ class _ModalValidarpresencaWidgetState
                         padding:
                             EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 12.0, 0.0),
                         child: FFButtonWidget(
-                          onPressed: () {
-                            print('Button pressed ...');
+                          onPressed: () async {
+                            Navigator.pop(context);
                           },
                           text: 'Retornar sem ação',
                           options: FFButtonOptions(
@@ -366,8 +367,35 @@ class _ModalValidarpresencaWidgetState
                         ),
                       ),
                       FFButtonWidget(
-                        onPressed: () {
-                          print('Button pressed ...');
+                        onPressed: () async {
+                          _model.apiResult99i = await EditarPresencaCall.call(
+                            status: 'P',
+                            aluno: widget.alunoId,
+                            chamada: widget.chamadaId,
+                          );
+                          if ((_model.apiResult99i?.succeeded ?? true)) {
+                            context.safePop();
+                          } else {
+                            await showDialog(
+                              context: context,
+                              builder: (alertDialogContext) {
+                                return AlertDialog(
+                                  title: Text('Ocorreu um problema!'),
+                                  content: Text(
+                                      'Não foi possível confirmar presença.'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.pop(alertDialogContext),
+                                      child: Text('Ok'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          }
+
+                          setState(() {});
                         },
                         text: 'Validar presença',
                         options: FFButtonOptions(

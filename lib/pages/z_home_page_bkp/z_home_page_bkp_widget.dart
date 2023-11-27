@@ -684,7 +684,17 @@ class _ZHomePageBkpWidgetState extends State<ZHomePageBkpWidget> {
                                                                   .toString(),
                                                               ParamType.String,
                                                             ),
-                                                            'pturmaid':
+                                                            'paluno':
+                                                                serializeParam(
+                                                              currentUserDisplayName,
+                                                              ParamType.String,
+                                                            ),
+                                                            'palunoid':
+                                                                serializeParam(
+                                                              widget.puserid,
+                                                              ParamType.String,
+                                                            ),
+                                                            'pchamadaid':
                                                                 serializeParam(
                                                               '',
                                                               ParamType.String,

@@ -5,11 +5,9 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_timer.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import '/pages/modal_cancelar_presenca/modal_cancelar_presenca_widget.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'z_prof_iniciar_chamada_bkp_widget.dart'
     show ZProfIniciarChamadaBkpWidget;
-import 'package:aligned_dialog/aligned_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';

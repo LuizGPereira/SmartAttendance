@@ -28,6 +28,12 @@ class FFAppState extends ChangeNotifier {
               .withoutNulls ??
           _LocationList;
     });
+    _safeInit(() {
+      _userPrivateId = prefs.getString('ff_userPrivateId') ?? _userPrivateId;
+    });
+    _safeInit(() {
+      _userType = prefs.getString('ff_userType') ?? _userType;
+    });
   }
 
   void update(VoidCallback callback) {
@@ -78,16 +84,24 @@ class FFAppState extends ChangeNotifier {
         'ff_LocationList', _LocationList.map((x) => x.serialize()).toList());
   }
 
-  int _userPrivateId = 0;
-  int get userPrivateId => _userPrivateId;
-  set userPrivateId(int _value) {
+  String _actualLocation = '';
+  String get actualLocation => _actualLocation;
+  set actualLocation(String _value) {
+    _actualLocation = _value;
+  }
+
+  String _userPrivateId = '';
+  String get userPrivateId => _userPrivateId;
+  set userPrivateId(String _value) {
     _userPrivateId = _value;
+    prefs.setString('ff_userPrivateId', _value);
   }
 
   String _userType = '';
   String get userType => _userType;
   set userType(String _value) {
     _userType = _value;
+    prefs.setString('ff_userType', _value);
   }
 }
 

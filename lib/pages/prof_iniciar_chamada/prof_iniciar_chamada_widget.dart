@@ -1,3 +1,4 @@
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_google_map.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -35,19 +36,25 @@ class _ProfIniciarChamadaWidgetState extends State<ProfIniciarChamadaWidget> {
   late ProfIniciarChamadaModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  LatLng? currentUserLocationValue;
 
   @override
   void initState() {
     super.initState();
     _model = createModel(context, () => ProfIniciarChamadaModel());
 
-    _model.textController1 ??= TextEditingController(text: '15');
-    _model.textFieldFocusNode1 ??= FocusNode();
+    getCurrentUserLocation(defaultLocation: LatLng(0.0, 0.0), cached: true)
+        .then((loc) => setState(() => currentUserLocationValue = loc));
+    _model.tempAbertoController ??= TextEditingController();
+    _model.tempAbertoFocusNode ??= FocusNode();
 
-    _model.textController2 ??= TextEditingController(text: '10');
-    _model.textFieldFocusNode2 ??= FocusNode();
+    _model.raioController ??= TextEditingController();
+    _model.raioFocusNode ??= FocusNode();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {
+          _model.tempAbertoController?.text = '15';
+          _model.raioController?.text = '10';
+        }));
   }
 
   @override
@@ -69,6 +76,22 @@ class _ProfIniciarChamadaWidgetState extends State<ProfIniciarChamadaWidget> {
     }
 
     context.watch<FFAppState>();
+    if (currentUserLocationValue == null) {
+      return Container(
+        color: FlutterFlowTheme.of(context).primaryBackground,
+        child: Center(
+          child: SizedBox(
+            width: 50.0,
+            height: 50.0,
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(
+                FlutterFlowTheme.of(context).primary,
+              ),
+            ),
+          ),
+        ),
+      );
+    }
 
     return GestureDetector(
       onTap: () => _model.unfocusNode.canRequestFocus
@@ -91,8 +114,8 @@ class _ProfIniciarChamadaWidgetState extends State<ProfIniciarChamadaWidget> {
               color: Colors.white,
               size: 30.0,
             ),
-            onPressed: () {
-              print('IconButton pressed ...');
+            onPressed: () async {
+              context.safePop();
             },
           ),
           title: Padding(
@@ -130,25 +153,35 @@ class _ProfIniciarChamadaWidgetState extends State<ProfIniciarChamadaWidget> {
                             color: FlutterFlowTheme.of(context)
                                 .secondaryBackground,
                           ),
-                          child: FlutterFlowGoogleMap(
-                            controller: _model.googleMapsController,
-                            onCameraIdle: (latLng) =>
-                                _model.googleMapsCenter = latLng,
-                            initialLocation: _model.googleMapsCenter ??=
-                                LatLng(-22.9041, -43.1377),
-                            markerColor: GoogleMarkerColor.violet,
-                            mapType: MapType.terrain,
-                            style: GoogleMapStyle.standard,
-                            initialZoom: 14.0,
-                            allowInteraction: true,
-                            allowZoom: true,
-                            showZoomControls: true,
-                            showLocation: true,
-                            showCompass: false,
-                            showMapToolbar: true,
-                            showTraffic: false,
-                            centerMapOnMarkerTap: true,
-                          ),
+                          child: Builder(builder: (context) {
+                            final _googleMapMarker = currentUserLocationValue;
+                            return FlutterFlowGoogleMap(
+                              controller: _model.googleMapsController,
+                              onCameraIdle: (latLng) =>
+                                  _model.googleMapsCenter = latLng,
+                              initialLocation: _model.googleMapsCenter ??=
+                                  currentUserLocationValue!,
+                              markers: [
+                                if (_googleMapMarker != null)
+                                  FlutterFlowMarker(
+                                    _googleMapMarker.serialize(),
+                                    _googleMapMarker,
+                                  ),
+                              ],
+                              markerColor: GoogleMarkerColor.red,
+                              mapType: MapType.terrain,
+                              style: GoogleMapStyle.standard,
+                              initialZoom: 14.0,
+                              allowInteraction: true,
+                              allowZoom: true,
+                              showZoomControls: true,
+                              showLocation: true,
+                              showCompass: false,
+                              showMapToolbar: true,
+                              showTraffic: false,
+                              centerMapOnMarkerTap: true,
+                            );
+                          }),
                         ),
                       ),
                     ],
@@ -170,8 +203,8 @@ class _ProfIniciarChamadaWidgetState extends State<ProfIniciarChamadaWidget> {
                         child: Container(
                           width: 80.0,
                           child: TextFormField(
-                            controller: _model.textController1,
-                            focusNode: _model.textFieldFocusNode1,
+                            controller: _model.tempAbertoController,
+                            focusNode: _model.tempAbertoFocusNode,
                             autofocus: true,
                             obscureText: false,
                             decoration: InputDecoration(
@@ -217,7 +250,7 @@ class _ProfIniciarChamadaWidgetState extends State<ProfIniciarChamadaWidget> {
                                   fontFamily: 'Outfit',
                                   fontSize: 16.0,
                                 ),
-                            validator: _model.textController1Validator
+                            validator: _model.tempAbertoControllerValidator
                                 .asValidator(context),
                           ),
                         ),
@@ -240,8 +273,8 @@ class _ProfIniciarChamadaWidgetState extends State<ProfIniciarChamadaWidget> {
                         child: Container(
                           width: 80.0,
                           child: TextFormField(
-                            controller: _model.textController2,
-                            focusNode: _model.textFieldFocusNode2,
+                            controller: _model.raioController,
+                            focusNode: _model.raioFocusNode,
                             autofocus: true,
                             obscureText: false,
                             decoration: InputDecoration(
@@ -287,7 +320,7 @@ class _ProfIniciarChamadaWidgetState extends State<ProfIniciarChamadaWidget> {
                                   fontFamily: 'Outfit',
                                   fontSize: 16.0,
                                 ),
-                            validator: _model.textController2Validator
+                            validator: _model.raioControllerValidator
                                 .asValidator(context),
                           ),
                         ),
@@ -327,8 +360,39 @@ class _ProfIniciarChamadaWidgetState extends State<ProfIniciarChamadaWidget> {
                         padding:
                             EdgeInsetsDirectional.fromSTEB(5.0, 5.0, 5.0, 5.0),
                         child: FFButtonWidget(
-                          onPressed: () {
-                            print('Button pressed ...');
+                          onPressed: () async {
+                            currentUserLocationValue =
+                                await getCurrentUserLocation(
+                                    defaultLocation: LatLng(0.0, 0.0));
+                            _model.apiResultj6s = await IniciarChamadaCall.call(
+                              latLong: currentUserLocationValue?.toString(),
+                              turma: widget.pturmaid,
+                              raio: double.tryParse(_model.raioController.text),
+                              dataFim: _model.tempAbertoController.text,
+                            );
+                            if ((_model.apiResultj6s?.statusCode ?? 200) ==
+                                200) {
+                              context.safePop();
+                            } else {
+                              await showDialog(
+                                context: context,
+                                builder: (alertDialogContext) {
+                                  return AlertDialog(
+                                    title: Text('Ocorreu um problema!'),
+                                    content: Text('Falha ao criar chamada'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () =>
+                                            Navigator.pop(alertDialogContext),
+                                        child: Text('Ok'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            }
+
+                            setState(() {});
                           },
                           text: 'Iniciar chamada',
                           options: FFButtonOptions(
