@@ -376,7 +376,10 @@ class _HomeTurmaDetailsWidgetState extends State<HomeTurmaDetailsWidget> {
                                   ParamType.String,
                                 ),
                                 'pchamadaid': serializeParam(
-                                  '',
+                                  getJsonField(
+                                    (_model.chamadaTurmaReturn?.jsonBody ?? ''),
+                                    r'''$['chamadas'][0]['id']''',
+                                  ).toString(),
                                   ParamType.String,
                                 ),
                               }.withoutNulls,

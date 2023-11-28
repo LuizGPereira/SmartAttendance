@@ -505,10 +505,14 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   FlutterFlowIconButton(
+                                                    key: ValueKey(
+                                                        'IconButton_fs4d'),
                                                     borderRadius: 20.0,
                                                     borderWidth: 1.0,
                                                     buttonSize: 40.0,
                                                     icon: Icon(
+                                                      key: ValueKey(
+                                                          'IconButton_fs4d'),
                                                       Icons.arrow_forward_ios,
                                                       color: FlutterFlowTheme
                                                               .of(context)
