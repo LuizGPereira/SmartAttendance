@@ -228,6 +228,7 @@ class _AlunoResponderChamadaWidgetState
                       );
                       if ((_model.apiResult99i?.succeeded ?? true)) {
                         context.safePop();
+                        setState(() {});
                       } else {
                         await showDialog(
                           context: context,

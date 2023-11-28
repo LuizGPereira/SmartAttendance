@@ -290,13 +290,6 @@ class _DetalheChamadaWidgetState extends State<DetalheChamadaWidget> {
                                                               presencaItem)
                                                           .aluno
                                                           .usuarioNome,
-                                                  alunoId:
-                                                      PresencaStruct.fromMap(
-                                                              presencaItem)
-                                                          .aluno
-                                                          .id
-                                                          .toString(),
-                                                  chamadaId: widget.chamadaId!,
                                                 ),
                                               ),
                                             );
