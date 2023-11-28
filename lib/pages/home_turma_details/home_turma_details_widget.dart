@@ -376,10 +376,13 @@ class _HomeTurmaDetailsWidgetState extends State<HomeTurmaDetailsWidget> {
                                   ParamType.String,
                                 ),
                                 'pchamadaid': serializeParam(
-                                  getJsonField(
+                                  (ListarChamadasDaTurmaCall.chamadasIds(
                                     (_model.chamadaTurmaReturn?.jsonBody ?? ''),
-                                    r'''$['chamadas'][0]['id']''',
-                                  ).toString(),
+                                  ) as List)
+                                      .map<String>((s) => s.toString())
+                                      .toList()
+                                      .first
+                                      .toString(),
                                   ParamType.String,
                                 ),
                               }.withoutNulls,
@@ -523,9 +526,7 @@ class _HomeTurmaDetailsWidgetState extends State<HomeTurmaDetailsWidget> {
                                         ? FocusScope.of(context)
                                             .requestFocus(_model.unfocusNode)
                                         : FocusScope.of(context).unfocus(),
-                                    child: ModalAdicionarAtestadoWidget(
-                                      puserID: '',
-                                    ),
+                                    child: ModalAdicionarAtestadoWidget(),
                                   ),
                                 );
                               },
@@ -655,9 +656,7 @@ class _HomeTurmaDetailsWidgetState extends State<HomeTurmaDetailsWidget> {
                                                         : FocusScope.of(context)
                                                             .unfocus(),
                                                     child:
-                                                        ModalAdicionarAtestadoWidget(
-                                                      puserID: '',
-                                                    ),
+                                                        ModalAdicionarAtestadoWidget(),
                                                   ),
                                                 );
                                               },

@@ -1,4 +1,5 @@
 import '/auth/firebase_auth/auth_util.dart';
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -18,15 +19,18 @@ class ModalAdicionarAtestadoModel
     extends FlutterFlowModel<ModalAdicionarAtestadoWidget> {
   ///  State fields for stateful widgets in this component.
 
-  // State field(s) for DropDown widget.
-  String? dropDownValue1;
-  FormFieldController<String>? dropDownValueController1;
-  // State field(s) for DropDown widget.
-  String? dropDownValue2;
-  FormFieldController<String>? dropDownValueController2;
+  // State field(s) for Turma widget.
+  String? turmaValue;
+  FormFieldController<String>? turmaValueController;
+  // State field(s) for Chamada widget.
+  String? chamadaValue;
+  FormFieldController<String>? chamadaValueController;
   bool isDataUploading = false;
   FFUploadedFile uploadedLocalFile =
       FFUploadedFile(bytes: Uint8List.fromList([]));
+
+  // Stores action output result for [Backend Call - API (Subir Atestado)] action in Button widget.
+  ApiCallResponse? apiResultmzz;
 
   /// Initialization and disposal methods.
 

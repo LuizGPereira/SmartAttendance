@@ -14,10 +14,10 @@ export 'modal_ver_atestado_model.dart';
 class ModalVerAtestadoWidget extends StatefulWidget {
   const ModalVerAtestadoWidget({
     Key? key,
-    required this.puserID,
+    required this.presencaId,
   }) : super(key: key);
 
-  final String? puserID;
+  final String? presencaId;
 
   @override
   _ModalVerAtestadoWidgetState createState() => _ModalVerAtestadoWidgetState();
@@ -282,7 +282,7 @@ class _ModalVerAtestadoWidgetState extends State<ModalVerAtestadoWidget> {
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(8.0),
                                       child: Image.network(
-                                        'https://picsum.photos/seed/517/600',
+                                        'https://smartattendances.online/atestado/${widget.presencaId}/retornar/',
                                         width: 311.0,
                                         height: 338.0,
                                         fit: BoxFit.cover,

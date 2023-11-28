@@ -886,9 +886,7 @@ class _ZHomePageBkpWidgetState extends State<ZHomePageBkpWidget> {
                                                       _model.unfocusNode)
                                               : FocusScope.of(context)
                                                   .unfocus(),
-                                          child: ModalAdicionarAtestadoWidget(
-                                            puserID: currentUserUid,
-                                          ),
+                                          child: ModalAdicionarAtestadoWidget(),
                                         ),
                                       );
                                     },

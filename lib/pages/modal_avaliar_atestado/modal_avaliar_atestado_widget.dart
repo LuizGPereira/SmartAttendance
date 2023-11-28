@@ -1,9 +1,9 @@
 import '/auth/firebase_auth/auth_util.dart';
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import '/flutter_flow/upload_data.dart';
 import '/pages/modal_ver_atestado/modal_ver_atestado_widget.dart';
 import 'dart:ui';
 import 'package:aligned_dialog/aligned_dialog.dart';
@@ -20,10 +20,14 @@ class ModalAvaliarAtestadoWidget extends StatefulWidget {
     Key? key,
     required this.presencaId,
     required this.alunoNome,
+    required this.alunoId,
+    required this.chamadaId,
   }) : super(key: key);
 
   final String? presencaId;
   final String? alunoNome;
+  final String? alunoId;
+  final String? chamadaId;
 
   @override
   _ModalAvaliarAtestadoWidgetState createState() =>
@@ -285,7 +289,8 @@ class _ModalAvaliarAtestadoWidgetState
                                                 return Material(
                                                   color: Colors.transparent,
                                                   child: ModalVerAtestadoWidget(
-                                                    puserID: '',
+                                                    presencaId:
+                                                        widget.presencaId!,
                                                   ),
                                                 );
                                               },
@@ -315,45 +320,36 @@ class _ModalAvaliarAtestadoWidgetState
                                 ),
                                 child: FFButtonWidget(
                                   onPressed: () async {
-                                    final selectedMedia = await selectMedia(
-                                      mediaSource: MediaSource.photoGallery,
-                                      multiImage: false,
+                                    _model.apiResultlgl =
+                                        await EditarPresencaCall.call(
+                                      aluno: widget.alunoId,
+                                      chamada: widget.chamadaId,
+                                      status: 'F',
                                     );
-                                    if (selectedMedia != null &&
-                                        selectedMedia.every((m) =>
-                                            validateFileFormat(
-                                                m.storagePath, context))) {
-                                      setState(
-                                          () => _model.isDataUploading = true);
-                                      var selectedUploadedFiles =
-                                          <FFUploadedFile>[];
-
-                                      try {
-                                        selectedUploadedFiles = selectedMedia
-                                            .map((m) => FFUploadedFile(
-                                                  name: m.storagePath
-                                                      .split('/')
-                                                      .last,
-                                                  bytes: m.bytes,
-                                                  height: m.dimensions?.height,
-                                                  width: m.dimensions?.width,
-                                                  blurHash: m.blurHash,
-                                                ))
-                                            .toList();
-                                      } finally {
-                                        _model.isDataUploading = false;
-                                      }
-                                      if (selectedUploadedFiles.length ==
-                                          selectedMedia.length) {
-                                        setState(() {
-                                          _model.uploadedLocalFile =
-                                              selectedUploadedFiles.first;
-                                        });
-                                      } else {
-                                        setState(() {});
-                                        return;
-                                      }
+                                    if ((_model.apiResultlgl?.succeeded ??
+                                        true)) {
+                                      context.safePop();
+                                    } else {
+                                      await showDialog(
+                                        context: context,
+                                        builder: (alertDialogContext) {
+                                          return AlertDialog(
+                                            title: Text('Ocorreu um problema!'),
+                                            content: Text(
+                                                'Não conseguimos atualizar a presença do aluno, tente novamente mais tarde.'),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(
+                                                    alertDialogContext),
+                                                child: Text('Ok'),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
                                     }
+
+                                    setState(() {});
                                   },
                                   text: 'Recusar atestado',
                                   options: FFButtonOptions(
@@ -389,13 +385,38 @@ class _ModalAvaliarAtestadoWidgetState
                                   Expanded(
                                     child: FFButtonWidget(
                                       onPressed: () async {
-                                        GoRouter.of(context).prepareAuthEvent();
-                                        await authManager.signOut();
-                                        GoRouter.of(context)
-                                            .clearRedirectLocation();
+                                        _model.apiResultlglCopy =
+                                            await EditarPresencaCall.call(
+                                          aluno: widget.alunoId,
+                                          chamada: widget.chamadaId,
+                                          status: 'P',
+                                        );
+                                        if ((_model.apiResultlgl?.succeeded ??
+                                            true)) {
+                                          context.safePop();
+                                        } else {
+                                          await showDialog(
+                                            context: context,
+                                            builder: (alertDialogContext) {
+                                              return AlertDialog(
+                                                title: Text(
+                                                    'Ocorreu um problema!'),
+                                                content: Text(
+                                                    'Não conseguimos atualizar a presença do aluno, tente novamente mais tarde.'),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(
+                                                            alertDialogContext),
+                                                    child: Text('Ok'),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        }
 
-                                        context.goNamedAuth(
-                                            'START', context.mounted);
+                                        setState(() {});
                                       },
                                       text: 'Aceitar Atestado',
                                       options: FFButtonOptions(

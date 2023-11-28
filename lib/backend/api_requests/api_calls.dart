@@ -67,6 +67,15 @@ class TurmasByUserPrivateIdCall {
         r'''$["Turmas"]''',
         true,
       );
+  static dynamic turmasNome(dynamic response) => getJsonField(
+        response,
+        r'''$["Turmas"][:]["turma_nome"]''',
+        true,
+      );
+  static dynamic turmasId(dynamic response) => getJsonField(
+        response,
+        r'''$["Turmas"][:]["id"]''',
+      );
 }
 
 class HistoricoByTurmaIdCall {
@@ -152,6 +161,55 @@ class IniciarChamadaCall {
   }
 }
 
+class SubirAtestadoCall {
+  static Future<ApiCallResponse> call({
+    FFUploadedFile? atestado,
+    String? aluno = '',
+    String? chamada = '',
+  }) async {
+    return ApiManager.instance.makeApiCall(
+      callName: 'Subir Atestado',
+      apiUrl: 'https://smartattendances.online/atestado/inserir/',
+      callType: ApiCallType.POST,
+      headers: {
+        'Content-Type': 'application/json',
+        'accept': 'application/json',
+      },
+      params: {
+        'atestado': atestado,
+        'aluno': aluno,
+        'chamada': chamada,
+      },
+      bodyType: BodyType.MULTIPART,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+    );
+  }
+}
+
+class RecuperarAtestadoCall {
+  static Future<ApiCallResponse> call({
+    String? presenca = '',
+  }) async {
+    return ApiManager.instance.makeApiCall(
+      callName: 'Recuperar Atestado',
+      apiUrl: 'https://smartattendances.online/atestado/${presenca}/retornar/',
+      callType: ApiCallType.GET,
+      headers: {
+        'Content-Type': 'application/json',
+        'accept': 'application/json',
+      },
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+    );
+  }
+}
+
 class ListarPresencasByIdChamadaCall {
   static Future<ApiCallResponse> call({
     String? id = '',
@@ -223,6 +281,16 @@ class ListarChamadasDaTurmaCall {
   static dynamic chamadas(dynamic response) => getJsonField(
         response,
         r'''$.chamadas''',
+        true,
+      );
+  static dynamic chamadasIds(dynamic response) => getJsonField(
+        response,
+        r'''$['chamadas'][:]['id']''',
+        true,
+      );
+  static dynamic chamadasInicio(dynamic response) => getJsonField(
+        response,
+        r'''$['chamadas'][:]['data_inicio']''',
         true,
       );
 }

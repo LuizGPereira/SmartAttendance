@@ -133,8 +133,6 @@ dependency_overrides:
 
 dev_dependencies:
   flutter_lints: 3.0.0
-  integration_test: 
-    sdk: flutter
   lints: 3.0.0
 
   flutter_test:

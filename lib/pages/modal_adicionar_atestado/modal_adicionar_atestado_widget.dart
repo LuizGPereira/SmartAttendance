@@ -1,4 +1,5 @@
 import '/auth/firebase_auth/auth_util.dart';
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -16,12 +17,7 @@ import 'modal_adicionar_atestado_model.dart';
 export 'modal_adicionar_atestado_model.dart';
 
 class ModalAdicionarAtestadoWidget extends StatefulWidget {
-  const ModalAdicionarAtestadoWidget({
-    Key? key,
-    required this.puserID,
-  }) : super(key: key);
-
-  final String? puserID;
+  const ModalAdicionarAtestadoWidget({Key? key}) : super(key: key);
 
   @override
   _ModalAdicionarAtestadoWidgetState createState() =>
@@ -245,45 +241,93 @@ class _ModalAdicionarAtestadoWidgetState
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Expanded(
-                                        child: FlutterFlowDropDown<String>(
-                                          controller: _model
-                                                  .dropDownValueController1 ??=
-                                              FormFieldController<String>(null),
-                                          options: [
-                                            'Turma 1',
-                                            'Turma 2',
-                                            'Turma 3'
-                                          ],
-                                          onChanged: (val) => setState(() =>
-                                              _model.dropDownValue1 = val),
-                                          width: 609.0,
-                                          height: 50.0,
-                                          textStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium,
-                                          hintText:
-                                              'Por favor, selecione a turma',
-                                          icon: Icon(
-                                            Icons.keyboard_arrow_down_rounded,
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryText,
-                                            size: 24.0,
+                                        child: FutureBuilder<ApiCallResponse>(
+                                          future:
+                                              TurmasByUserPrivateIdCall.call(
+                                            privateId:
+                                                FFAppState().userPrivateId,
                                           ),
-                                          fillColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .secondaryBackground,
-                                          elevation: 2.0,
-                                          borderColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .alternate,
-                                          borderWidth: 2.0,
-                                          borderRadius: 8.0,
-                                          margin:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  16.0, 4.0, 16.0, 4.0),
-                                          hidesUnderline: true,
-                                          isSearchable: false,
-                                          isMultiSelect: false,
+                                          builder: (context, snapshot) {
+                                            // Customize what your widget looks like when it's loading.
+                                            if (!snapshot.hasData) {
+                                              return Center(
+                                                child: SizedBox(
+                                                  width: 50.0,
+                                                  height: 50.0,
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    valueColor:
+                                                        AlwaysStoppedAnimation<
+                                                            Color>(
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .primary,
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
+                                            }
+                                            final turmaTurmasByUserPrivateIdResponse =
+                                                snapshot.data!;
+                                            return FlutterFlowDropDown<String>(
+                                              controller: _model
+                                                      .turmaValueController ??=
+                                                  FormFieldController<String>(
+                                                _model.turmaValue ??= '',
+                                              ),
+                                              options: List<String>.from(
+                                                  (getJsonField(
+                                                turmaTurmasByUserPrivateIdResponse
+                                                    .jsonBody,
+                                                r'''$["Turmas"][:]["id"]''',
+                                                true,
+                                              ) as List)
+                                                      .map<String>(
+                                                          (s) => s.toString())
+                                                      .toList()!),
+                                              optionLabels:
+                                                  (TurmasByUserPrivateIdCall
+                                                          .turmasNome(
+                                                turmaTurmasByUserPrivateIdResponse
+                                                    .jsonBody,
+                                              ) as List)
+                                                      .map<String>(
+                                                          (s) => s.toString())
+                                                      .toList()!,
+                                              onChanged: (val) => setState(() =>
+                                                  _model.turmaValue = val),
+                                              width: 609.0,
+                                              height: 50.0,
+                                              textStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium,
+                                              hintText:
+                                                  'Por favor, selecione a turma',
+                                              icon: Icon(
+                                                Icons
+                                                    .keyboard_arrow_down_rounded,
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondaryText,
+                                                size: 24.0,
+                                              ),
+                                              fillColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondaryBackground,
+                                              elevation: 2.0,
+                                              borderColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .alternate,
+                                              borderWidth: 2.0,
+                                              borderRadius: 8.0,
+                                              margin: EdgeInsetsDirectional
+                                                  .fromSTEB(
+                                                      16.0, 4.0, 16.0, 4.0),
+                                              hidesUnderline: true,
+                                              isSearchable: false,
+                                              isMultiSelect: false,
+                                            );
+                                          },
                                         ),
                                       ),
                                     ],
@@ -312,41 +356,90 @@ class _ModalAdicionarAtestadoWidgetState
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
                                     children: [
-                                      FlutterFlowDropDown<String>(
-                                        controller: _model
-                                                .dropDownValueController2 ??=
-                                            FormFieldController<String>(null),
-                                        options: [
-                                          'Chamada 1',
-                                          'Chamada 2',
-                                          'Chamada 3'
-                                        ],
-                                        onChanged: (val) => setState(
-                                            () => _model.dropDownValue2 = val),
-                                        width: 300.0,
-                                        height: 50.0,
-                                        textStyle: FlutterFlowTheme.of(context)
-                                            .bodyMedium,
-                                        hintText: 'Por favor, selecione a data',
-                                        icon: Icon(
-                                          Icons.keyboard_arrow_down_rounded,
-                                          color: FlutterFlowTheme.of(context)
-                                              .secondaryText,
-                                          size: 24.0,
+                                      FutureBuilder<ApiCallResponse>(
+                                        future: ListarChamadasDaTurmaCall.call(
+                                          usuario: FFAppState().userPrivateId,
+                                          turma: _model.turmaValue,
                                         ),
-                                        fillColor: FlutterFlowTheme.of(context)
-                                            .secondaryBackground,
-                                        elevation: 2.0,
-                                        borderColor:
-                                            FlutterFlowTheme.of(context)
-                                                .alternate,
-                                        borderWidth: 2.0,
-                                        borderRadius: 8.0,
-                                        margin: EdgeInsetsDirectional.fromSTEB(
-                                            16.0, 4.0, 16.0, 4.0),
-                                        hidesUnderline: true,
-                                        isSearchable: false,
-                                        isMultiSelect: false,
+                                        builder: (context, snapshot) {
+                                          // Customize what your widget looks like when it's loading.
+                                          if (!snapshot.hasData) {
+                                            return Center(
+                                              child: SizedBox(
+                                                width: 50.0,
+                                                height: 50.0,
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  valueColor:
+                                                      AlwaysStoppedAnimation<
+                                                          Color>(
+                                                    FlutterFlowTheme.of(context)
+                                                        .primary,
+                                                  ),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          final chamadaListarChamadasDaTurmaResponse =
+                                              snapshot.data!;
+                                          return FlutterFlowDropDown<String>(
+                                            controller: _model
+                                                    .chamadaValueController ??=
+                                                FormFieldController<String>(
+                                              _model.chamadaValue ??= '',
+                                            ),
+                                            options: List<String>.from(
+                                                (getJsonField(
+                                              chamadaListarChamadasDaTurmaResponse
+                                                  .jsonBody,
+                                              r'''$['chamadas'][:]['id']''',
+                                              true,
+                                            ) as List)
+                                                    .map<String>(
+                                                        (s) => s.toString())
+                                                    .toList()!),
+                                            optionLabels: (getJsonField(
+                                              chamadaListarChamadasDaTurmaResponse
+                                                  .jsonBody,
+                                              r'''$['chamadas'][:]['data_inicio']''',
+                                              true,
+                                            ) as List)
+                                                .map<String>(
+                                                    (s) => s.toString())
+                                                .toList()!,
+                                            onChanged: (val) => setState(() =>
+                                                _model.chamadaValue = val),
+                                            width: 300.0,
+                                            height: 50.0,
+                                            textStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium,
+                                            hintText:
+                                                'Por favor, selecione a data',
+                                            icon: Icon(
+                                              Icons.keyboard_arrow_down_rounded,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondaryText,
+                                              size: 24.0,
+                                            ),
+                                            fillColor:
+                                                FlutterFlowTheme.of(context)
+                                                    .secondaryBackground,
+                                            elevation: 2.0,
+                                            borderColor:
+                                                FlutterFlowTheme.of(context)
+                                                    .alternate,
+                                            borderWidth: 2.0,
+                                            borderRadius: 8.0,
+                                            margin:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    16.0, 4.0, 16.0, 4.0),
+                                            hidesUnderline: true,
+                                            isSearchable: false,
+                                            isMultiSelect: false,
+                                          );
+                                        },
                                       ),
                                     ],
                                   ),
@@ -445,13 +538,38 @@ class _ModalAdicionarAtestadoWidgetState
                                   Expanded(
                                     child: FFButtonWidget(
                                       onPressed: () async {
-                                        GoRouter.of(context).prepareAuthEvent();
-                                        await authManager.signOut();
-                                        GoRouter.of(context)
-                                            .clearRedirectLocation();
+                                        _model.apiResultmzz =
+                                            await SubirAtestadoCall.call(
+                                          atestado: _model.uploadedLocalFile,
+                                          aluno: FFAppState().userPrivateId,
+                                          chamada: _model.chamadaValue,
+                                        );
+                                        if ((_model.apiResultmzz?.succeeded ??
+                                            true)) {
+                                          context.safePop();
+                                        } else {
+                                          await showDialog(
+                                            context: context,
+                                            builder: (alertDialogContext) {
+                                              return AlertDialog(
+                                                title: Text(
+                                                    'Ocorreu um problema!'),
+                                                content: Text(
+                                                    'Não conseguimos subir seu atestado, fale com o professor diretamente!'),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(
+                                                            alertDialogContext),
+                                                    child: Text('Ok'),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        }
 
-                                        context.goNamedAuth(
-                                            'START', context.mounted);
+                                        setState(() {});
                                       },
                                       text: 'Enviar Atestado',
                                       options: FFButtonOptions(

@@ -290,6 +290,13 @@ class _DetalheChamadaWidgetState extends State<DetalheChamadaWidget> {
                                                               presencaItem)
                                                           .aluno
                                                           .usuarioNome,
+                                                  alunoId:
+                                                      PresencaStruct.fromMap(
+                                                              presencaItem)
+                                                          .aluno
+                                                          .id
+                                                          .toString(),
+                                                  chamadaId: widget.chamadaId!,
                                                 ),
                                               ),
                                             );
@@ -307,7 +314,7 @@ class _DetalheChamadaWidgetState extends State<DetalheChamadaWidget> {
                                                       presencaItem)
                                                   : null)
                                               ?.status ==
-                                          'A') {
+                                          'C') {
                                         return Color(0xFFD6DD4F);
                                       } else if ((presencaItem != null &&
                                                       presencaItem != ''
