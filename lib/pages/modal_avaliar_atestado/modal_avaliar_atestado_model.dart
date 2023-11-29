@@ -1,9 +1,9 @@
 import '/auth/firebase_auth/auth_util.dart';
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import '/flutter_flow/upload_data.dart';
 import '/pages/modal_ver_atestado/modal_ver_atestado_widget.dart';
 import 'dart:ui';
 import 'modal_avaliar_atestado_widget.dart' show ModalAvaliarAtestadoWidget;
@@ -18,9 +18,10 @@ class ModalAvaliarAtestadoModel
     extends FlutterFlowModel<ModalAvaliarAtestadoWidget> {
   ///  State fields for stateful widgets in this component.
 
-  bool isDataUploading = false;
-  FFUploadedFile uploadedLocalFile =
-      FFUploadedFile(bytes: Uint8List.fromList([]));
+  // Stores action output result for [Backend Call - API (Editar Presenca)] action in Button widget.
+  ApiCallResponse? apiResultx97;
+  // Stores action output result for [Backend Call - API (Editar Presenca)] action in Button widget.
+  ApiCallResponse? apiResult76v;
 
   /// Initialization and disposal methods.
 
